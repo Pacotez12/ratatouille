@@ -1,475 +1,588 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- ═══════════════════════════════════════════
+       SEO BÁSICO — Lineamiento 1C
+  ═══════════════════════════════════════════ -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ratatouille — Bistró Parisino</title>
-  <link rel="stylesheet" href="ratatouille.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ratatouille Bistró | Cocina Francesa Auténtica en Asunción</title>
+  <meta name="description" content="Ratatouille Bistró — El auténtico sabor de París en Asunción. Reservá tu mesa y descubrí nuestra carta de platos clásicos y de temporada. Cualquiera puede cocinar." />
+  <meta name="keywords" content="restaurante francés, bistro, ratatouille, cocina francesa, Asunción, reservas, gastronomía" />
+  <meta name="author" content="Ratatouille Bistró" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.ratatouille-bistro.com.py/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://www.ratatouille-bistro.com.py/" />
+  <meta property="og:title"       content="Ratatouille Bistró | Cocina Francesa Auténtica" />
+  <meta property="og:description" content="Reservá tu mesa en el bistró parisino de Asunción. Carta de temporada, platos clásicos y una experiencia culinaria única." />
+  <meta property="og:image"       content="https://images.unsplash.com/photo-1414235077428-338140e4b7d0?w=1200&h=630&fit=crop&auto=format&q=80" />
+  <meta property="og:locale"      content="es_PY" />
+  <meta property="og:site_name"   content="Ratatouille Bistró" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Ratatouille Bistró | Cocina Francesa Auténtica" />
+  <meta name="twitter:description" content="Reservá tu mesa. Platos de temporada, vinos seleccionados y el mejor ambiente parisino de Asunción." />
+  <meta name="twitter:image"       content="https://images.unsplash.com/photo-1414235077428-338140e4b7d0?w=1200&h=630&fit=crop&auto=format&q=80" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐭</text></svg>" />
+
+  <!-- 2 tipografías máximo — Lineamiento 1B -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="tema-dia">
+<body>
 
-  <!-- ══════════════ PANEL DE DEMOSTRACIÓN (fijo) ══════════════ -->
-  <div id="panel-demo">
-    <div class="demo-titulo">🧪 Demo CSS Dinámico</div>
-
-    <div class="demo-grupo">
-      <span class="demo-label">Tema del sitio</span>
-      <div class="demo-btns">
-        <button onclick="cambiarTema('dia')"   class="btn-demo">☀️ Día</button>
-        <button onclick="cambiarTema('noche')" class="btn-demo">🌙 Noche</button>
-        <button onclick="cambiarTema('sepia')" class="btn-demo">📜 Sepia</button>
-      </div>
-      <code class="demo-code" id="code-tema">body.classList.replace(...)</code>
-    </div>
-
-    <div class="demo-grupo">
-      <span class="demo-label">Tamaño de fuente</span>
-      <input type="range" min="14" max="22" value="16" oninput="cambiarFuente(this.value)" />
-      <code class="demo-code" id="code-fuente">document.body.style.fontSize</code>
-    </div>
-
-    <div class="demo-grupo">
-      <span class="demo-label">Color de acento</span>
-      <div class="demo-btns">
-        <button onclick="cambiarAcento('C0392B')" class="btn-demo" style="background:#C0392B;color:#fff">Rojo</button>
-        <button onclick="cambiarAcento('2E86AB')" class="btn-demo" style="background:#2E86AB;color:#fff">Azul</button>
-        <button onclick="cambiarAcento('27AE60')" class="btn-demo" style="background:#27AE60;color:#fff">Verde</button>
-      </div>
-      <code class="demo-code" id="code-acento">style.setProperty('--acento',...)</code>
-    </div>
-
-    <div class="demo-grupo">
-      <span class="demo-label">Menú lateral</span>
-      <div class="demo-btns">
-        <button onclick="toggleNav()" class="btn-demo">☰ Toggle nav</button>
-        <button onclick="toggleCarrito()" class="btn-demo">🛒 Toggle carrito</button>
-      </div>
-      <code class="demo-code" id="code-nav">classList.toggle('visible')</code>
+  <!-- COOKIE NOTICE — Lineamiento 5 Legal -->
+  <div class="cookie" id="cookie-banner" role="dialog" aria-label="Aviso de cookies">
+    <p class="cookie__text">
+      🍪 Usamos cookies para mejorar tu experiencia. Al continuar aceptás nuestra
+      <a href="#terminos" class="cookie__link">Política de Privacidad</a>.
+    </p>
+    <div class="cookie__actions">
+      <button class="cookie__btn cookie__btn--reject" id="btn-cookie-reject">Rechazar</button>
+      <button class="cookie__btn cookie__btn--accept" id="btn-cookie-accept">Aceptar cookies</button>
     </div>
   </div>
 
-  <!-- ══════════════ NAV LATERAL ══════════════ -->
-  <nav id="nav-lateral" class="nav-lateral">
-    <button class="nav-cerrar" onclick="toggleNav()">✕</button>
-    <div class="nav-logo">🐭 Ratatouille</div>
-    <ul class="nav-links">
-      <li><a href="#inicio" onclick="toggleNav()">Inicio</a></li>
-      <li><a href="#menu"   onclick="toggleNav()">Menú</a></li>
-      <li><a href="#chef"   onclick="toggleNav()">Nuestro Chef</a></li>
-      <li><a href="#reservas" onclick="toggleNav()">Reservas</a></li>
-    </ul>
-  </nav>
-  <div id="overlay-nav" class="overlay-nav" onclick="toggleNav()"></div>
+  <!-- ════════════ HEADER ════════════ -->
+  <header class="header" id="inicio">
 
-  <!-- ══════════════ HEADER ══════════════ -->
-  <header id="inicio" class="hero">
-    <div class="hero-contenido">
-      <p class="hero-eyebrow">Bistró Parisino · Desde 1966</p>
-      <h1 class="hero-titulo">Ratatouille</h1>
-      <p class="hero-subtitulo">
-        <em>"Cualquiera puede cocinar"</em> — Auguste Gusteau
-      </p>
-      <div class="hero-btns">
-        <button class="btn-primario" onclick="irA('menu')">Ver Menú</button>
-        <button class="btn-secundario" onclick="irA('reservas')">Reservar Mesa</button>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#inicio" class="nav__logo" aria-label="Ratatouille Bistró - Inicio">
+        <span class="nav__logo-icon" aria-hidden="true">🐭</span>
+        <span class="nav__logo-text">Ratatouille</span>
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="#nosotros" class="nav__link">Nosotros</a></li>
+        <li><a href="#menu"     class="nav__link">Menú</a></li>
+        <li><a href="#chef"     class="nav__link">Chef</a></li>
+        <li><a href="#galeria"  class="nav__link">Galería</a></li>
+        <li><a href="#contacto" class="nav__link">Contacto</a></li>
+      </ul>
+      <a href="#reservas" class="nav__cta">Reservar mesa</a>
+      <button class="nav__hamburger" id="nav-hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-mobile">
+        <span class="nav__hamburger-bar"></span>
+        <span class="nav__hamburger-bar"></span>
+        <span class="nav__hamburger-bar"></span>
+      </button>
+    </nav>
+
+    <div class="nav-mobile" id="nav-mobile" aria-hidden="true">
+      <ul class="nav-mobile__links" role="list">
+        <li><a href="#nosotros" class="nav-mobile__link">Nosotros</a></li>
+        <li><a href="#menu"     class="nav-mobile__link">Menú</a></li>
+        <li><a href="#chef"     class="nav-mobile__link">Chef</a></li>
+        <li><a href="#galeria"  class="nav-mobile__link">Galería</a></li>
+        <li><a href="#contacto" class="nav-mobile__link">Contacto</a></li>
+        <li><a href="#reservas" class="nav-mobile__link nav-mobile__link--cta">Reservar mesa</a></li>
+      </ul>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Bistró Parisino · Asunción, Paraguay</p>
+        <h1 class="hero__title">
+          El sabor de<br /><em>París</em> en<br />cada plato
+        </h1>
+        <p class="hero__subtitle">
+          Ingredientes frescos, técnicas clásicas y la magia de quien cocina con alma.
+          Viví la experiencia gastronómica que París no pudo darte.
+        </p>
+        <div class="hero__actions">
+          <a href="#reservas" class="btn btn--primary">Reservar mesa ahora</a>
+          <a href="#menu"     class="btn btn--ghost">Ver el menú</a>
+        </div>
+        <div class="hero__proof">
+          <div class="hero__stars" aria-label="5 de 5 estrellas">★★★★★</div>
+          <p class="hero__proof-text">+1.200 reseñas · 4.9 en Google Maps</p>
+        </div>
+      </div>
+      <div class="hero__visual" aria-hidden="true">
+        <div class="hero__plate"><span class="hero__emoji">🍽️</span></div>
+        <div class="hero__badge">
+          <span class="hero__badge-text">Abierto hoy</span>
+          <span class="hero__badge-hours">12:00 – 23:00</span>
+        </div>
       </div>
     </div>
-    <div class="hero-deco">🍽️</div>
+
+    <!-- Stats strip -->
+    <div class="stats" role="list">
+      <div class="stats__item" role="listitem">
+        <span class="stats__number">28</span>
+        <span class="stats__label">Años de tradición</span>
+      </div>
+      <div class="stats__item" role="listitem">
+        <span class="stats__number">64</span>
+        <span class="stats__label">Platos en carta</span>
+      </div>
+      <div class="stats__item" role="listitem">
+        <span class="stats__number">12</span>
+        <span class="stats__label">Mesas disponibles</span>
+      </div>
+      <div class="stats__item" role="listitem">
+        <span class="stats__number">4.9</span>
+        <span class="stats__label">Calificación promedio</span>
+      </div>
+    </div>
   </header>
 
-  <!-- ══════════════ MENÚ ══════════════ -->
+  <!-- ════════════ MAIN ════════════ -->
   <main>
-    <section id="menu" class="seccion-menu">
-      <h2 class="seccion-titulo">Notre Menu</h2>
-      <p class="seccion-sub">Seleccioná los platos y observá cómo cambian las clases CSS</p>
 
-      <!-- Filtros -->
-      <div class="filtros" id="filtros">
-        <button class="filtro activo" data-cat="todos"    onclick="filtrar(this)">Todos</button>
-        <button class="filtro"        data-cat="entrada"  onclick="filtrar(this)">Entradas</button>
-        <button class="filtro"        data-cat="principal" onclick="filtrar(this)">Principales</button>
-        <button class="filtro"        data-cat="postre"   onclick="filtrar(this)">Postres</button>
-        <button class="filtro"        data-cat="bebida"   onclick="filtrar(this)">Bebidas</button>
-      </div>
-
-      <!-- Grid de platos -->
-      <div class="menu-grid" id="menu-grid">
-
-        <div class="plato" data-cat="entrada" data-id="1" data-precio="35000" data-nombre="Ratatouille Clásica">
-          <div class="plato-img">🫕</div>
-          <div class="plato-info">
-            <span class="plato-cat">Entrada</span>
-            <h3 class="plato-nombre">Ratatouille Clásica</h3>
-            <p class="plato-desc">Verduras provenzales confitadas al horno con hierbas de la región.</p>
-            <div class="plato-footer">
-              <span class="plato-precio">Gs. 35.000</span>
-              <button class="btn-agregar" onclick="agregar(this)">+ Agregar</button>
+    <!-- NOSOTROS -->
+    <section class="about" id="nosotros" aria-labelledby="about-title">
+      <div class="about__container">
+        <div class="about__visual">
+          <div class="about__img-wrap">
+            <img src="https://cdn.sortiraparis.com/images/80/110171/1171284-margaux-le-restaurant-francais-typique-face-a-la-tour-eiffel.jpg" alt="Interior del Bistró Ratatouille con mesas y decoración parisina" class="about__img" width="600" height="400" loading="lazy" />
+            <div class="about__img-badge">
+              <span class="about__img-badge-icon">👨‍🍳</span>
+              <div>
+                <strong>Chef Remy Gusteau</strong>
+                <small>15 años de trayectoria</small>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="plato" data-cat="entrada" data-id="2" data-precio="28000" data-nombre="Soupe à l'Oignon">
-          <div class="plato-img">🧅</div>
-          <div class="plato-info">
-            <span class="plato-cat">Entrada</span>
-            <h3 class="plato-nombre">Soupe à l'Oignon</h3>
-            <p class="plato-desc">Sopa de cebolla gratinada con queso gruyère y croûtons artesanales.</p>
-            <div class="plato-footer">
-              <span class="plato-precio">Gs. 28.000</span>
-              <button class="btn-agregar" onclick="agregar(this)">+ Agregar</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="plato" data-cat="principal" data-id="3" data-precio="72000" data-nombre="Confit de Canard">
-          <div class="plato-img">🦆</div>
-          <div class="plato-info">
-            <span class="plato-cat">Principal</span>
-            <h3 class="plato-nombre">Confit de Canard</h3>
-            <p class="plato-desc">Pato confitado con papas sarladaises y salsa de cerezas.</p>
-            <div class="plato-footer">
-              <span class="plato-precio">Gs. 72.000</span>
-              <button class="btn-agregar" onclick="agregar(this)">+ Agregar</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="plato destacado" data-cat="principal" data-id="4" data-precio="85000" data-nombre="Bouillabaisse Marseillaise">
-          <div class="plato-badge">Chef recomienda</div>
-          <div class="plato-img">🐟</div>
-          <div class="plato-info">
-            <span class="plato-cat">Principal</span>
-            <h3 class="plato-nombre">Bouillabaisse Marseillaise</h3>
-            <p class="plato-desc">Guiso de mariscos y pescados frescos con rouille y pan de campo.</p>
-            <div class="plato-footer">
-              <span class="plato-precio">Gs. 85.000</span>
-              <button class="btn-agregar" onclick="agregar(this)">+ Agregar</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="plato" data-cat="principal" data-id="5" data-precio="68000" data-nombre="Boeuf Bourguignon">
-          <div class="plato-img">🥩</div>
-          <div class="plato-info">
-            <span class="plato-cat">Principal</span>
-            <h3 class="plato-nombre">Boeuf Bourguignon</h3>
-            <p class="plato-desc">Ternera estofada en vino de Borgoña con champiñones y zanahorias glaseadas.</p>
-            <div class="plato-footer">
-              <span class="plato-precio">Gs. 68.000</span>
-              <button class="btn-agregar" onclick="agregar(this)">+ Agregar</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="plato" data-cat="postre" data-id="6" data-precio="22000" data-nombre="Crème Brûlée">
-          <div class="plato-img">🍮</div>
-          <div class="plato-info">
-            <span class="plato-cat">Postre</span>
-            <h3 class="plato-nombre">Crème Brûlée</h3>
-            <p class="plato-desc">Crema de vainilla con costra caramelizada y frutos rojos frescos.</p>
-            <div class="plato-footer">
-              <span class="plato-precio">Gs. 22.000</span>
-              <button class="btn-agregar" onclick="agregar(this)">+ Agregar</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="plato" data-cat="postre" data-id="7" data-precio="18000" data-nombre="Tarte Tatin">
-          <div class="plato-img">🥧</div>
-          <div class="plato-info">
-            <span class="plato-cat">Postre</span>
-            <h3 class="plato-nombre">Tarte Tatin</h3>
-            <p class="plato-desc">Tarta invertida de manzanas caramelizadas con helado de crème fraîche.</p>
-            <div class="plato-footer">
-              <span class="plato-precio">Gs. 18.000</span>
-              <button class="btn-agregar" onclick="agregar(this)">+ Agregar</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="plato" data-cat="bebida" data-id="8" data-precio="15000" data-nombre="Vin Rouge Maison">
-          <div class="plato-img">🍷</div>
-          <div class="plato-info">
-            <span class="plato-cat">Bebida</span>
-            <h3 class="plato-nombre">Vin Rouge Maison</h3>
-            <p class="plato-desc">Vino tinto de la casa, selección del sommelier.</p>
-            <div class="plato-footer">
-              <span class="plato-precio">Gs. 15.000</span>
-              <button class="btn-agregar" onclick="agregar(this)">+ Agregar</button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ══════════════ CHEF ══════════════ -->
-    <section id="chef" class="seccion-chef">
-      <div class="chef-contenido">
-        <div class="chef-foto" id="chef-foto">
-          <span class="chef-emoji">👨‍🍳</span>
-        </div>
-        <div class="chef-texto">
-          <h2>Gusteau &amp; Remy</h2>
-          <p class="chef-cargo">Chef Ejecutivo · Maestro Ratatouille</p>
-          <p>Nuestro pequeño chef Remy lleva el arte culinario a otro nivel. Inspirado en el maestro Auguste Gusteau, cada plato es una obra maestra que mezcla tradición provenzal con creatividad ilimitada.</p>
-          <button class="btn-primario" onclick="animarChef()">✨ Animar Chef</button>
+        <div class="about__text">
+          <p class="about__eyebrow">Nuestra historia</p>
+          <h2 class="about__title" id="about-title">
+            Cualquiera puede cocinar.<br /><em>Pero no todos cocinan bien.</em>
+          </h2>
+          <p class="about__body">
+            En 1996, el chef Auguste Gusteau abrió las puertas de este bistró con una promesa
+            simple: traer la cocina honesta de Lyon y Provenza a Asunción. Hoy, su legado continúa
+            en cada roux, cada confit y cada crème brûlée que sale de nuestra cocina.
+          </p>
+          <p class="about__body">
+            No somos un restaurante de tendencias. Somos un lugar donde los ingredientes mandan,
+            la técnica respeta el producto y cada plato cuenta una historia.
+          </p>
+          <ul class="about__features" role="list">
+            <li class="about__feature">
+              <span class="about__feature-icon" aria-hidden="true">🥬</span>
+              <span>Ingredientes frescos de temporada</span>
+            </li>
+            <li class="about__feature">
+              <span class="about__feature-icon" aria-hidden="true">🍷</span>
+              <span>Carta de vinos seleccionada por sommelier</span>
+            </li>
+            <li class="about__feature">
+              <span class="about__feature-icon" aria-hidden="true">🔥</span>
+              <span>Técnicas tradicionales francesas</span>
+            </li>
+          </ul>
+          <a href="#reservas" class="btn btn--primary">Reservar una mesa</a>
         </div>
       </div>
     </section>
 
-    <!-- ══════════════ RESERVAS ══════════════ -->
-    <section id="reservas" class="seccion-reservas">
-      <h2 class="seccion-titulo">Réservation</h2>
-      <form class="form-reserva" onsubmit="enviarReserva(event)">
-        <div class="form-fila">
-          <div class="campo">
-            <label>Nombre</label>
-            <input type="text" placeholder="Tu nombre" required />
-          </div>
-          <div class="campo">
-            <label>Email</label>
-            <input type="email" placeholder="tu@email.com" required />
-          </div>
-        </div>
-        <div class="form-fila">
-          <div class="campo">
-            <label>Fecha</label>
-            <input type="date" required />
-          </div>
-          <div class="campo">
-            <label>Personas</label>
-            <select>
-              <option>1</option><option>2</option><option>3</option>
-              <option>4</option><option>5</option><option>6+</option>
-            </select>
-          </div>
-        </div>
-        <button type="submit" class="btn-primario btn-full">Confirmar Reserva</button>
-      </form>
+    <!-- MENÚ -->
+    <section class="menu" id="menu" aria-labelledby="menu-title">
+      <div class="menu__container">
+        <header class="menu__header">
+          <p class="menu__eyebrow">Notre Menu</p>
+          <h2 class="menu__title" id="menu-title">Una carta que<br /><em>habla por sí sola</em></h2>
+          <p class="menu__subtitle">Seleccionamos cada plato pensando en el equilibrio perfecto entre tradición e innovación.</p>
+        </header>
 
-      <!-- Toast de confirmación -->
-      <div id="toast" class="toast">✅ ¡Reserva confirmada! Au revoir 🐭</div>
+        <!-- Filtros cerrados — "No me hagas errar" -->
+        <div class="menu__filters" role="group" aria-label="Filtrar por categoría">
+          <button class="menu__filter menu__filter--active" data-filter="todos"    aria-pressed="true">Todos</button>
+          <button class="menu__filter" data-filter="entrada"   aria-pressed="false">Entradas</button>
+          <button class="menu__filter" data-filter="principal" aria-pressed="false">Principales</button>
+          <button class="menu__filter" data-filter="postre"    aria-pressed="false">Postres</button>
+          <button class="menu__filter" data-filter="bebida"    aria-pressed="false">Bebidas</button>
+        </div>
+
+        <div class="menu__grid" id="menu-grid" role="list">
+
+          <article class="card card--featured" data-category="entrada" role="listitem">
+            <div class="card__badge">Chef recomienda</div>
+            <div class="card__img-wrap">
+              <img src="https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=640&h=420&fit=crop&auto=format&q=80" alt="Ratatouille Clásica — verduras provenzales confitadas" class="card__img" width="320" height="200" loading="lazy" />
+            </div>
+            <div class="card__body">
+              <span class="card__category">Entrada</span>
+              <h3 class="card__title">Ratatouille Clásica</h3>
+              <p class="card__desc">Verduras provenzales confitadas al horno lento con hierbas de la región y aceite de oliva virgen extra.</p>
+              <div class="card__footer">
+                <span class="card__price">Gs. 35.000</span>
+                <button class="card__add" data-id="1" data-nombre="Ratatouille Clásica" data-precio="35000" aria-label="Agregar Ratatouille Clásica al pedido">+ Agregar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="entrada" role="listitem">
+            <div class="card__img-wrap">
+              <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=640&h=420&fit=crop&auto=format&q=80" alt="Soupe à l'Oignon gratinada con gruyère" class="card__img" width="320" height="200" loading="lazy" />
+            </div>
+            <div class="card__body">
+              <span class="card__category">Entrada</span>
+              <h3 class="card__title">Soupe à l'Oignon</h3>
+              <p class="card__desc">Sopa de cebolla caramelizada con caldo de res artesanal, gratinada con gruyère y croûtons.</p>
+              <div class="card__footer">
+                <span class="card__price">Gs. 28.000</span>
+                <button class="card__add" data-id="2" data-nombre="Soupe à l'Oignon" data-precio="28000" aria-label="Agregar Soupe à l'Oignon al pedido">+ Agregar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="entrada" role="listitem">
+            <div class="card__img-wrap">
+              <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=640&h=420&fit=crop&auto=format&q=80" alt="Foie Gras Poêlé con brioche tostado" class="card__img" width="320" height="200" loading="lazy" />
+            </div>
+            <div class="card__body">
+              <span class="card__category">Entrada</span>
+              <h3 class="card__title">Foie Gras Poêlé</h3>
+              <p class="card__desc">Hígado de pato sellado, reducción de Sauternes, brioche tostado y confit de cebollas caramelizadas.</p>
+              <div class="card__footer">
+                <span class="card__price">Gs. 58.000</span>
+                <button class="card__add" data-id="3" data-nombre="Foie Gras Poêlé" data-precio="58000" aria-label="Agregar Foie Gras Poêlé al pedido">+ Agregar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card card--featured" data-category="principal" role="listitem">
+            <div class="card__badge">Más pedido</div>
+            <div class="card__img-wrap">
+              <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=640&h=420&fit=crop&auto=format&q=80" alt="Boeuf Bourguignon con champiñones y zanahorias" class="card__img" width="320" height="200" loading="lazy" />
+            </div>
+            <div class="card__body">
+              <span class="card__category">Principal</span>
+              <h3 class="card__title">Boeuf Bourguignon</h3>
+              <p class="card__desc">Ternera estofada en vino tinto de Borgoña, champiñones, zanahorias glaseadas y papas torneadas.</p>
+              <div class="card__footer">
+                <span class="card__price">Gs. 68.000</span>
+                <button class="card__add" data-id="4" data-nombre="Boeuf Bourguignon" data-precio="68000" aria-label="Agregar Boeuf Bourguignon al pedido">+ Agregar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="principal" role="listitem">
+            <div class="card__img-wrap">
+              <img src="https://i.ytimg.com/vi/QyfjfsYGrWI/maxresdefault.jpg" alt="Confit de Canard con papas sarladaises" class="card__img" width="320" height="200" loading="lazy" />
+            </div>
+            <div class="card__body">
+              <span class="card__category">Principal</span>
+              <h3 class="card__title">Confit de Canard</h3>
+              <p class="card__desc">Muslo de pato confitado 8 horas, piel crujiente, papas sarladaises y salsa de cerezas amargas.</p>
+              <div class="card__footer">
+                <span class="card__price">Gs. 72.000</span>
+                <button class="card__add" data-id="5" data-nombre="Confit de Canard" data-precio="72000" aria-label="Agregar Confit de Canard al pedido">+ Agregar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="principal" role="listitem">
+            <div class="card__img-wrap">
+              <img src="https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=640&h=420&fit=crop&auto=format&q=80" alt="Bouillabaisse Marseillaise con mariscos frescos" class="card__img" width="320" height="200" loading="lazy" />
+            </div>
+            <div class="card__body">
+              <span class="card__category">Principal</span>
+              <h3 class="card__title">Bouillabaisse Marseillaise</h3>
+              <p class="card__desc">Guiso de mariscos y pescados frescos del día, rouille provenzal y pan de campo tostado.</p>
+              <div class="card__footer">
+                <span class="card__price">Gs. 85.000</span>
+                <button class="card__add" data-id="6" data-nombre="Bouillabaisse" data-precio="85000" aria-label="Agregar Bouillabaisse al pedido">+ Agregar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="postre" role="listitem">
+            <div class="card__img-wrap">
+              <img src="https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=640&h=420&fit=crop&auto=format&q=80" alt="Crème Brûlée con costra caramelizada y frutos rojos" class="card__img" width="320" height="200" loading="lazy" />
+            </div>
+            <div class="card__body">
+              <span class="card__category">Postre</span>
+              <h3 class="card__title">Crème Brûlée</h3>
+              <p class="card__desc">Crema de vainilla de Madagascar, costra de azúcar caramelizado a soplete, frutos rojos frescos.</p>
+              <div class="card__footer">
+                <span class="card__price">Gs. 22.000</span>
+                <button class="card__add" data-id="7" data-nombre="Crème Brûlée" data-precio="22000" aria-label="Agregar Crème Brûlée al pedido">+ Agregar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="postre" role="listitem">
+            <div class="card__img-wrap">
+              <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=640&h=420&fit=crop&auto=format&q=80" alt="Tarte Tatin de manzanas con helado de crème fraîche" class="card__img" width="320" height="200" loading="lazy" />
+            </div>
+            <div class="card__body">
+              <span class="card__category">Postre</span>
+              <h3 class="card__title">Tarte Tatin</h3>
+              <p class="card__desc">Tarta invertida de manzanas caramelizadas, masa hojaldrada artesanal y helado de crème fraîche.</p>
+              <div class="card__footer">
+                <span class="card__price">Gs. 18.000</span>
+                <button class="card__add" data-id="8" data-nombre="Tarte Tatin" data-precio="18000" aria-label="Agregar Tarte Tatin al pedido">+ Agregar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="bebida" role="listitem">
+            <div class="card__img-wrap">
+              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=640&h=420&fit=crop&auto=format&q=80" alt="Copa de vino tinto Vin Rouge Maison" class="card__img" width="320" height="200" loading="lazy" />
+            </div>
+            <div class="card__body">
+              <span class="card__category">Bebida</span>
+              <h3 class="card__title">Vin Rouge Maison</h3>
+              <p class="card__desc">Selección del sommelier. Bouquet afrutado, taninos equilibrados y final largo y persistente.</p>
+              <div class="card__footer">
+                <span class="card__price">Gs. 32.000</span>
+                <button class="card__add" data-id="9" data-nombre="Vin Rouge Maison" data-precio="32000" aria-label="Agregar Vin Rouge Maison al pedido">+ Agregar</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="menu__footer">
+          <p class="menu__note">¿Tenés alergias o restricciones alimentarias? Indicalo al hacer tu reserva.</p>
+          <a href="assets/carta-completa.pdf" class="btn btn--outline" target="_blank" rel="noopener noreferrer">Descargar carta completa (PDF)</a>
+        </div>
+      </div>
     </section>
+
+    <!-- CHEF -->
+    <section class="chef" id="chef" aria-labelledby="chef-title">
+      <div class="chef__container">
+        <div class="chef__text">
+          <p class="chef__eyebrow">Nuestro Chef</p>
+          <h2 class="chef__title" id="chef-title">La magia empieza<br /><em>antes del fuego</em></h2>
+          <p class="chef__body">
+            Remy Gusteau pasó su infancia entre los mercados de Lyon y las cocinas de su abuelo
+            en Provenza. A los 19 años ganó su primer reconocimiento y desde 2010 dirige
+            Ratatouille Bistró con una filosofía simple: el ingrediente manda.
+          </p>
+          <p class="chef__body">
+            Cada semana recorre los mercados de Asunción seleccionando personalmente los productos
+            frescos que compondrán el menú de temporada.
+          </p>
+          <blockquote class="chef__quote">
+            <p>"Un plato sin alma es solo química. Yo cocino emociones."</p>
+            <cite>— Remy Gusteau</cite>
+          </blockquote>
+        </div>
+        <div class="chef__visual">
+          <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&h=700&fit=crop&auto=format&q=80" alt="Chef Remy Gusteau en la cocina de Ratatouille Bistró" class="chef__img" width="500" height="600" loading="lazy" />
+          <div class="chef__accolade">
+            <span class="chef__accolade-star" aria-hidden="true">⭐</span>
+            <div>
+              <strong>Prix Gastronomique</strong>
+              <small>Mejor Bistró Latinoamérica 2023</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERÍA -->
+    <section class="gallery" id="galeria" aria-labelledby="gallery-title">
+      <div class="gallery__container">
+        <h2 class="gallery__title" id="gallery-title">Una imagen<br /><em>que da hambre</em></h2>
+        <div class="gallery__grid" role="list">
+          <figure class="gallery__item gallery__item--large" role="listitem">
+            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=500&fit=crop&auto=format&q=80" alt="Mise en place en la cocina de Ratatouille" class="gallery__img" width="600" height="400" loading="lazy" />
+          </figure>
+          <figure class="gallery__item" role="listitem">
+            <img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&h=400&fit=crop&auto=format&q=80" alt="Boeuf Bourguignon presentado en el plato" class="gallery__img" width="300" height="300" loading="lazy" />
+          </figure>
+          <figure class="gallery__item" role="listitem">
+            <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=400&h=400&fit=crop&auto=format&q=80" alt="Copa de vino tinto seleccionada por el sommelier" class="gallery__img" width="300" height="300" loading="lazy" />
+          </figure>
+          <figure class="gallery__item" role="listitem">
+            <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=400&h=400&fit=crop&auto=format&q=80" alt="Salón del bistró con mesas y decoración parisina" class="gallery__img" width="300" height="300" loading="lazy" />
+          </figure>
+          <figure class="gallery__item" role="listitem">
+            <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=400&fit=crop&auto=format&q=80" alt="Crème Brûlée lista para servir" class="gallery__img" width="300" height="300" loading="lazy" />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESERVAS -->
+    <section class="reservas" id="reservas" aria-labelledby="reservas-title">
+      <div class="reservas__container">
+        <div class="reservas__text">
+          <p class="reservas__eyebrow">Reservas</p>
+          <h2 class="reservas__title" id="reservas-title">Tu mesa te<br /><em>está esperando</em></h2>
+          <p class="reservas__body">Asegurá tu lugar con anticipación. Para grupos de más de 8 personas, comunicate por WhatsApp.</p>
+          <ul class="reservas__info" role="list">
+            <li class="reservas__info-item"><span aria-hidden="true">🕐</span><span>Lunes a viernes: 12:00 – 23:00</span></li>
+            <li class="reservas__info-item"><span aria-hidden="true">🕐</span><span>Sábados y domingos: 11:00 – 23:00</span></li>
+            <li class="reservas__info-item"><span aria-hidden="true">📍</span><span>Av. Mcal. López 1234, Asunción</span></li>
+            <li class="reservas__info-item"><span aria-hidden="true">📞</span><span>+595 21 123 456</span></li>
+          </ul>
+        </div>
+
+        <!-- Formulario con heurísticas UX — Lineamiento 1A -->
+        <form class="form" id="form-reserva" novalidate aria-label="Formulario de reserva de mesa">
+          <div class="form__row">
+            <div class="form__field">
+              <label class="form__label" for="nombre">Nombre completo *</label>
+              <input class="form__input" type="text" id="nombre" name="nombre" placeholder="Ej. Juan González" required minlength="3" autocomplete="name" aria-required="true" aria-describedby="nombre-error" />
+              <span class="form__error" id="nombre-error" role="alert" aria-live="polite"></span>
+            </div>
+            <div class="form__field">
+              <label class="form__label" for="email">Correo electrónico *</label>
+              <input class="form__input" type="email" id="email" name="email" placeholder="tu@correo.com" required autocomplete="email" aria-required="true" aria-describedby="email-error" />
+              <span class="form__error" id="email-error" role="alert" aria-live="polite"></span>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="form__field">
+              <label class="form__label" for="telefono">Teléfono</label>
+              <input class="form__input" type="tel" id="telefono" name="telefono" placeholder="+595 9X XXX XXXX" autocomplete="tel" />
+            </div>
+            <!-- dropdown cerrado previene errores ortográficos (Lineamiento 1A) -->
+            <div class="form__field">
+              <label class="form__label" for="personas">Cantidad de personas *</label>
+              <select class="form__input form__input--select" id="personas" name="personas" required aria-required="true" aria-describedby="personas-error">
+                <option value="" disabled selected>Seleccioná</option>
+                <option value="1">1 persona</option>
+                <option value="2">2 personas</option>
+                <option value="3">3 personas</option>
+                <option value="4">4 personas</option>
+                <option value="5">5 personas</option>
+                <option value="6">6 personas</option>
+                <option value="7">7 personas</option>
+                <option value="8">8 personas</option>
+              </select>
+              <span class="form__error" id="personas-error" role="alert" aria-live="polite"></span>
+            </div>
+          </div>
+          <div class="form__row">
+            <!-- min=hoy previene seleccionar fechas pasadas (Lineamiento 1A) -->
+            <div class="form__field">
+              <label class="form__label" for="fecha">Fecha de reserva *</label>
+              <input class="form__input" type="date" id="fecha" name="fecha" required aria-required="true" aria-describedby="fecha-error" />
+              <span class="form__error" id="fecha-error" role="alert" aria-live="polite"></span>
+            </div>
+            <!-- horarios cerrados: evita errores de formato -->
+            <div class="form__field">
+              <label class="form__label" for="horario">Horario *</label>
+              <select class="form__input form__input--select" id="horario" name="horario" required aria-required="true" aria-describedby="horario-error">
+                <option value="" disabled selected>Seleccioná</option>
+                <option value="12:00">12:00 hs</option>
+                <option value="13:00">13:00 hs</option>
+                <option value="14:00">14:00 hs</option>
+                <option value="20:00">20:00 hs</option>
+                <option value="21:00">21:00 hs</option>
+                <option value="22:00">22:00 hs</option>
+              </select>
+              <span class="form__error" id="horario-error" role="alert" aria-live="polite"></span>
+            </div>
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="notas">Notas (alergias, ocasión especial)</label>
+            <textarea class="form__input form__input--textarea" id="notas" name="notas" placeholder="Ej. Alergia al maní. Celebración de aniversario." rows="3"></textarea>
+          </div>
+          <div class="form__status" id="form-status" aria-live="polite" aria-atomic="true"></div>
+          <button class="btn btn--primary btn--full" type="submit" id="btn-reservar">Confirmar reserva</button>
+          <p class="form__note">* Campos obligatorios. Recibirás una confirmación por email.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="contact" id="contacto" aria-labelledby="contact-title">
+      <div class="contact__container">
+        <div class="contact__info">
+          <p class="contact__eyebrow">Contacto</p>
+          <h2 class="contact__title" id="contact-title">¿Tenés alguna <em>consulta?</em></h2>
+          <address class="contact__address">
+            <p>📍 Av. Mcal. López 1234, Asunción, Paraguay</p>
+            <p>📞 <a href="tel:+59521123456">+595 21 123 456</a></p>
+            <p>✉️ <a href="mailto:hola@ratatouille-bistro.com.py">hola@ratatouille-bistro.com.py</a></p>
+          </address>
+          <div class="contact__social">
+            <a href="#" class="contact__social-link" aria-label="Seguinos en Instagram">Instagram</a>
+            <a href="#" class="contact__social-link" aria-label="Página en Facebook">Facebook</a>
+            <a href="#" class="contact__social-link" aria-label="Canal de YouTube">YouTube</a>
+          </div>
+        </div>
+        <form class="form form--contact" id="form-contacto" novalidate aria-label="Formulario de contacto general">
+          <div class="form__field">
+            <label class="form__label" for="c-nombre">Nombre *</label>
+            <input class="form__input" type="text" id="c-nombre" name="nombre" placeholder="Tu nombre" required aria-required="true" aria-describedby="c-nombre-error" />
+            <span class="form__error" id="c-nombre-error" role="alert" aria-live="polite"></span>
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="c-email">Email *</label>
+            <input class="form__input" type="email" id="c-email" name="email" placeholder="tu@correo.com" required aria-required="true" aria-describedby="c-email-error" />
+            <span class="form__error" id="c-email-error" role="alert" aria-live="polite"></span>
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="c-mensaje">Mensaje *</label>
+            <textarea class="form__input form__input--textarea" id="c-mensaje" name="mensaje" rows="4" placeholder="¿En qué podemos ayudarte?" required aria-required="true" aria-describedby="c-mensaje-error"></textarea>
+            <span class="form__error" id="c-mensaje-error" role="alert" aria-live="polite"></span>
+          </div>
+          <div class="form__status" id="form-contacto-status" aria-live="polite"></div>
+          <button class="btn btn--primary btn--full" type="submit">Enviar mensaje</button>
+        </form>
+      </div>
+    </section>
+
   </main>
 
-  <!-- ══════════════ CARRITO ══════════════ -->
-  <div id="carrito" class="carrito">
-    <div class="carrito-header">
-      <span>🛒 Mi Pedido</span>
-      <button onclick="toggleCarrito()">✕</button>
-    </div>
-    <div class="carrito-items" id="carrito-items">
-      <p class="carrito-vacio">El carrito está vacío 🍽️</p>
-    </div>
-    <div class="carrito-footer" id="carrito-footer" style="display:none">
-      <div class="carrito-total">Total: <span id="carrito-total">Gs. 0</span></div>
-      <button class="btn-primario btn-full" onclick="confirmarPedido()">Confirmar Pedido</button>
-    </div>
-  </div>
-
-  <!-- Botón flotante carrito -->
-  <button class="btn-carrito-flotante" onclick="toggleCarrito()" id="btn-flotante">
-    🛒 <span id="contador-carrito" class="contador-badge">0</span>
-  </button>
-
-  <!-- ══════════════ FOOTER ══════════════ -->
+  <!-- FOOTER -->
   <footer class="footer">
-    <p>🐭 Ratatouille Bistró Parisino · Gusteau's Restaurant, París</p>
-    <p class="footer-sub">Manipulación Dinámica de CSS — Demo educativa</p>
+    <div class="footer__container">
+      <div class="footer__brand">
+        <a href="#inicio" class="footer__logo">🐭 Ratatouille Bistró</a>
+        <p class="footer__tagline">"Cualquiera puede cocinar."</p>
+        <p class="footer__copy">© 2025 Ratatouille Bistró. Todos los derechos reservados.</p>
+      </div>
+      <nav class="footer__nav" aria-label="Navegación del pie de página">
+        <h3 class="footer__nav-title">Navegación</h3>
+        <ul class="footer__links" role="list">
+          <li><a href="#nosotros" class="footer__link">Nosotros</a></li>
+          <li><a href="#menu"     class="footer__link">Menú</a></li>
+          <li><a href="#chef"     class="footer__link">Chef</a></li>
+          <li><a href="#reservas" class="footer__link">Reservas</a></li>
+          <li><a href="#contacto" class="footer__link">Contacto</a></li>
+        </ul>
+      </nav>
+      <nav class="footer__nav" aria-label="Sección legal">
+        <h3 class="footer__nav-title">Legal</h3>
+        <ul class="footer__links" role="list">
+          <li><a href="#terminos"   class="footer__link" id="terminos">Términos y Condiciones</a></li>
+          <li><a href="#privacidad" class="footer__link">Política de Privacidad</a></li>
+          <li><a href="#cookies"    class="footer__link" id="cookies">Configuración de Cookies</a></li>
+        </ul>
+      </nav>
+      <div class="footer__contact">
+        <h3 class="footer__nav-title">Horarios</h3>
+        <p>Lunes a viernes<br /><strong>12:00 – 23:00 hs</strong></p>
+        <p style="margin-top:8px">Sábados y domingos<br /><strong>11:00 – 23:00 hs</strong></p>
+      </div>
+    </div>
   </footer>
 
+  <!-- Toast de notificación (visibilidad del estado — Lineamiento 1A) -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Botón volver arriba -->
+  <button class="back-top" id="back-top" aria-label="Volver al inicio de la página">↑</button>
+
   <script>
-    // ═══════════════════════════════════════════════
-    // MANIPULACIÓN DINÁMICA DE CSS — DEMOSTRACIÓN
-    // ═══════════════════════════════════════════════
-
-    // 1. CAMBIAR TEMA usando classList.replace()
-    function cambiarTema(tema) {
-      const body = document.body;
-      // Reemplaza cualquier clase de tema por la nueva
-      ['tema-dia', 'tema-noche', 'tema-sepia'].forEach(t => body.classList.remove(t));
-      body.classList.add('tema-' + tema);
-
-      document.getElementById('code-tema').textContent =
-        `body.classList.add('tema-${tema}')`;
-    }
-
-    // 2. CAMBIAR FUENTE usando element.style
-    function cambiarFuente(val) {
-      document.body.style.fontSize = val + 'px';
-      document.getElementById('code-fuente').textContent =
-        `body.style.fontSize = '${val}px'`;
-    }
-
-    // 3. CAMBIAR VARIABLE CSS usando setProperty()
-    function cambiarAcento(hex) {
-      document.documentElement.style.setProperty('--acento', '#' + hex);
-      document.getElementById('code-acento').textContent =
-        `setProperty('--acento', '#${hex}')`;
-    }
-
-    // 4. TOGGLE NAV usando classList.toggle()
-    function toggleNav() {
-      const nav     = document.getElementById('nav-lateral');
-      const overlay = document.getElementById('overlay-nav');
-      nav.classList.toggle('visible');
-      overlay.classList.toggle('visible');
-      document.getElementById('code-nav').textContent =
-        `nav.classList.toggle('visible') → ${nav.classList.contains('visible')}`;
-    }
-
-    // 5. TOGGLE CARRITO usando classList.toggle()
-    function toggleCarrito() {
-      const carrito = document.getElementById('carrito');
-      carrito.classList.toggle('abierto');
-      document.getElementById('code-nav').textContent =
-        `carrito.classList.toggle('abierto') → ${carrito.classList.contains('abierto')}`;
-    }
-
-    // 6. FILTRAR MENÚ usando classList.add / remove
-    function filtrar(btn) {
-      // Quitar clase 'activo' de todos los filtros
-      document.querySelectorAll('.filtro').forEach(b => b.classList.remove('activo'));
-      // Agregar 'activo' al botón clickeado
-      btn.classList.add('activo');
-
-      const cat = btn.dataset.cat;
-      document.querySelectorAll('.plato').forEach(plato => {
-        if (cat === 'todos' || plato.dataset.cat === cat) {
-          plato.classList.remove('oculto');
-          plato.classList.add('visible-plato');
-        } else {
-          plato.classList.add('oculto');
-          plato.classList.remove('visible-plato');
-        }
-      });
-    }
-
-    // 7. AGREGAR AL CARRITO — manipula clases y estilos inline
-    let carrito = [];
-    function agregar(btn) {
-      const plato = btn.closest('.plato');
-      const id      = plato.dataset.id;
-      const nombre  = plato.dataset.nombre;
-      const precio  = parseInt(plato.dataset.precio);
-
-      // Clase de feedback visual en el card
-      plato.classList.add('agregado');
-      btn.classList.add('btn-agregado');
-      btn.textContent = '✓ Agregado';
-
-      setTimeout(() => {
-        plato.classList.remove('agregado');
-        btn.classList.remove('btn-agregado');
-        btn.textContent = '+ Agregar';
-      }, 1200);
-
-      // Agregar o incrementar en carrito
-      const existe = carrito.find(i => i.id === id);
-      if (existe) { existe.qty++; }
-      else { carrito.push({ id, nombre, precio, qty: 1 }); }
-
-      renderCarrito();
-      actualizarBadge();
-    }
-
-    function renderCarrito() {
-      const container = document.getElementById('carrito-items');
-      const footer    = document.getElementById('carrito-footer');
-
-      if (!carrito.length) {
-        container.innerHTML = '<p class="carrito-vacio">El carrito está vacío 🍽️</p>';
-        footer.style.display = 'none';
-        return;
-      }
-
-      let total = 0;
-      container.innerHTML = carrito.map(item => {
-        total += item.precio * item.qty;
-        return `
-          <div class="carrito-item">
-            <div class="ci-nombre">${item.nombre}</div>
-            <div class="ci-controles">
-              <button onclick="cambiarQty('${item.id}', -1)">−</button>
-              <span>${item.qty}</span>
-              <button onclick="cambiarQty('${item.id}', 1)">+</button>
-            </div>
-            <div class="ci-precio">Gs. ${(item.precio * item.qty).toLocaleString('es-PY')}</div>
-          </div>`;
-      }).join('');
-
-      document.getElementById('carrito-total').textContent =
-        'Gs. ' + total.toLocaleString('es-PY');
-
-      // style.display es manipulación de estilo inline
-      footer.style.display = 'block';
-    }
-
-    function cambiarQty(id, delta) {
-      const item = carrito.find(i => i.id === id);
-      if (!item) return;
-      item.qty += delta;
-      if (item.qty <= 0) carrito = carrito.filter(i => i.id !== id);
-      renderCarrito();
-      actualizarBadge();
-    }
-
-    function actualizarBadge() {
-      const total = carrito.reduce((s, i) => s + i.qty, 0);
-      const badge = document.getElementById('contador-carrito');
-      badge.textContent = total;
-      // Manipulación de clase para animar el badge
-      badge.classList.remove('pop');
-      void badge.offsetWidth; // reflow forzado
-      badge.classList.add('pop');
-
-      // Mostrar u ocultar botón flotante con classList
-      const btnFlotante = document.getElementById('btn-flotante');
-      if (total > 0) btnFlotante.classList.add('visible');
-      else btnFlotante.classList.remove('visible');
-    }
-
-    function confirmarPedido() {
-      carrito = [];
-      renderCarrito();
-      actualizarBadge();
-      toggleCarrito();
-      mostrarToast('🐭 ¡Pedido enviado a la cocina de Remy!');
-    }
-
-    // 8. ANIMACIÓN del chef con classList
-    function animarChef() {
-      const foto = document.getElementById('chef-foto');
-      foto.classList.add('chef-bailando');
-      setTimeout(() => foto.classList.remove('chef-bailando'), 1500);
-    }
-
-    // 9. RESERVAS + TOAST
-    function enviarReserva(e) {
-      e.preventDefault();
-      mostrarToast('✅ ¡Reserva confirmada! Au revoir 🐭');
-    }
-
-    function mostrarToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.classList.add('visible');         // classList.add
-      setTimeout(() => toast.classList.remove('visible'), 3000); // classList.remove
-    }
-
-    // 10. Scroll suave
-    function irA(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // 11. Header sticky con clase dinámica al hacer scroll
-    window.addEventListener('scroll', () => {
-      const header = document.querySelector('.hero');
-      if (window.scrollY > 80) header.classList.add('scrolled');
-      else header.classList.remove('scrolled');
+    // Establece fecha mínima = hoy ("No me hagas errar" — Lineamiento 1A)
+    document.addEventListener('DOMContentLoaded', () => {
+      const hoy = new Date().toISOString().split('T')[0];
+      const fechaInput = document.getElementById('fecha');
+      if (fechaInput) fechaInput.min = hoy;
     });
   </script>
+  <!-- El resto de JS va en app.js (Punto 2 del lineamiento) -->
+  <script src="app.js" defer></script>
 </body>
 </html>
