@@ -35,7 +35,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="ratatouille.css" />
 </head>
 <body>
 
@@ -205,144 +205,8 @@
         </div>
 
         <div class="menu__grid" id="menu-grid" role="list">
-
-          <article class="card card--featured" data-category="entrada" role="listitem">
-            <div class="card__badge">Chef recomienda</div>
-            <div class="card__img-wrap">
-              <img src="https://images.unsplash.com/photo-1572453800999-e8d2d1589b7c?w=640&h=420&fit=crop&auto=format&q=80" alt="Ratatouille Clásica — verduras provenzales confitadas" class="card__img" width="320" height="200" loading="lazy" />
-            </div>
-            <div class="card__body">
-              <span class="card__category">Entrada</span>
-              <h3 class="card__title">Ratatouille Clásica</h3>
-              <p class="card__desc">Verduras provenzales confitadas al horno lento con hierbas de la región y aceite de oliva virgen extra.</p>
-              <div class="card__footer">
-                <span class="card__price">Gs. 35.000</span>
-                <button class="card__add" data-id="1" data-nombre="Ratatouille Clásica" data-precio="35000" aria-label="Agregar Ratatouille Clásica al pedido">+ Agregar</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="entrada" role="listitem">
-            <div class="card__img-wrap">
-              <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=640&h=420&fit=crop&auto=format&q=80" alt="Soupe à l'Oignon gratinada con gruyère" class="card__img" width="320" height="200" loading="lazy" />
-            </div>
-            <div class="card__body">
-              <span class="card__category">Entrada</span>
-              <h3 class="card__title">Soupe à l'Oignon</h3>
-              <p class="card__desc">Sopa de cebolla caramelizada con caldo de res artesanal, gratinada con gruyère y croûtons.</p>
-              <div class="card__footer">
-                <span class="card__price">Gs. 28.000</span>
-                <button class="card__add" data-id="2" data-nombre="Soupe à l'Oignon" data-precio="28000" aria-label="Agregar Soupe à l'Oignon al pedido">+ Agregar</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="entrada" role="listitem">
-            <div class="card__img-wrap">
-              <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=640&h=420&fit=crop&auto=format&q=80" alt="Foie Gras Poêlé con brioche tostado" class="card__img" width="320" height="200" loading="lazy" />
-            </div>
-            <div class="card__body">
-              <span class="card__category">Entrada</span>
-              <h3 class="card__title">Foie Gras Poêlé</h3>
-              <p class="card__desc">Hígado de pato sellado, reducción de Sauternes, brioche tostado y confit de cebollas caramelizadas.</p>
-              <div class="card__footer">
-                <span class="card__price">Gs. 58.000</span>
-                <button class="card__add" data-id="3" data-nombre="Foie Gras Poêlé" data-precio="58000" aria-label="Agregar Foie Gras Poêlé al pedido">+ Agregar</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card card--featured" data-category="principal" role="listitem">
-            <div class="card__badge">Más pedido</div>
-            <div class="card__img-wrap">
-              <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=640&h=420&fit=crop&auto=format&q=80" alt="Boeuf Bourguignon con champiñones y zanahorias" class="card__img" width="320" height="200" loading="lazy" />
-            </div>
-            <div class="card__body">
-              <span class="card__category">Principal</span>
-              <h3 class="card__title">Boeuf Bourguignon</h3>
-              <p class="card__desc">Ternera estofada en vino tinto de Borgoña, champiñones, zanahorias glaseadas y papas torneadas.</p>
-              <div class="card__footer">
-                <span class="card__price">Gs. 68.000</span>
-                <button class="card__add" data-id="4" data-nombre="Boeuf Bourguignon" data-precio="68000" aria-label="Agregar Boeuf Bourguignon al pedido">+ Agregar</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="principal" role="listitem">
-            <div class="card__img-wrap">
-              <img src="https://i.ytimg.com/vi/QyfjfsYGrWI/maxresdefault.jpg" alt="Confit de Canard con papas sarladaises" class="card__img" width="320" height="200" loading="lazy" />
-            </div>
-            <div class="card__body">
-              <span class="card__category">Principal</span>
-              <h3 class="card__title">Confit de Canard</h3>
-              <p class="card__desc">Muslo de pato confitado 8 horas, piel crujiente, papas sarladaises y salsa de cerezas amargas.</p>
-              <div class="card__footer">
-                <span class="card__price">Gs. 72.000</span>
-                <button class="card__add" data-id="5" data-nombre="Confit de Canard" data-precio="72000" aria-label="Agregar Confit de Canard al pedido">+ Agregar</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="principal" role="listitem">
-            <div class="card__img-wrap">
-              <img src="https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=640&h=420&fit=crop&auto=format&q=80" alt="Bouillabaisse Marseillaise con mariscos frescos" class="card__img" width="320" height="200" loading="lazy" />
-            </div>
-            <div class="card__body">
-              <span class="card__category">Principal</span>
-              <h3 class="card__title">Bouillabaisse Marseillaise</h3>
-              <p class="card__desc">Guiso de mariscos y pescados frescos del día, rouille provenzal y pan de campo tostado.</p>
-              <div class="card__footer">
-                <span class="card__price">Gs. 85.000</span>
-                <button class="card__add" data-id="6" data-nombre="Bouillabaisse" data-precio="85000" aria-label="Agregar Bouillabaisse al pedido">+ Agregar</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="postre" role="listitem">
-            <div class="card__img-wrap">
-              <img src="https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=640&h=420&fit=crop&auto=format&q=80" alt="Crème Brûlée con costra caramelizada y frutos rojos" class="card__img" width="320" height="200" loading="lazy" />
-            </div>
-            <div class="card__body">
-              <span class="card__category">Postre</span>
-              <h3 class="card__title">Crème Brûlée</h3>
-              <p class="card__desc">Crema de vainilla de Madagascar, costra de azúcar caramelizado a soplete, frutos rojos frescos.</p>
-              <div class="card__footer">
-                <span class="card__price">Gs. 22.000</span>
-                <button class="card__add" data-id="7" data-nombre="Crème Brûlée" data-precio="22000" aria-label="Agregar Crème Brûlée al pedido">+ Agregar</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="postre" role="listitem">
-            <div class="card__img-wrap">
-              <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=640&h=420&fit=crop&auto=format&q=80" alt="Tarte Tatin de manzanas con helado de crème fraîche" class="card__img" width="320" height="200" loading="lazy" />
-            </div>
-            <div class="card__body">
-              <span class="card__category">Postre</span>
-              <h3 class="card__title">Tarte Tatin</h3>
-              <p class="card__desc">Tarta invertida de manzanas caramelizadas, masa hojaldrada artesanal y helado de crème fraîche.</p>
-              <div class="card__footer">
-                <span class="card__price">Gs. 18.000</span>
-                <button class="card__add" data-id="8" data-nombre="Tarte Tatin" data-precio="18000" aria-label="Agregar Tarte Tatin al pedido">+ Agregar</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="bebida" role="listitem">
-            <div class="card__img-wrap">
-              <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=640&h=420&fit=crop&auto=format&q=80" alt="Copa de vino tinto Vin Rouge Maison" class="card__img" width="320" height="200" loading="lazy" />
-            </div>
-            <div class="card__body">
-              <span class="card__category">Bebida</span>
-              <h3 class="card__title">Vin Rouge Maison</h3>
-              <p class="card__desc">Selección del sommelier. Bouquet afrutado, taninos equilibrados y final largo y persistente.</p>
-              <div class="card__footer">
-                <span class="card__price">Gs. 32.000</span>
-                <button class="card__add" data-id="9" data-nombre="Vin Rouge Maison" data-precio="32000" aria-label="Agregar Vin Rouge Maison al pedido">+ Agregar</button>
-              </div>
-            </div>
-          </article>
-
+          <!-- Contenido dinámico cargado desde app.js -->
+          <p class="about__body" style="grid-column: 1/-1; text-align: center;">Cargando el menú del día...</p>
         </div>
 
         <div class="menu__footer">
@@ -550,6 +414,7 @@
           <li><a href="#chef"     class="footer__link">Chef</a></li>
           <li><a href="#reservas" class="footer__link">Reservas</a></li>
           <li><a href="#contacto" class="footer__link">Contacto</a></li>
+          <li><a href="admin.html" class="footer__link" style="color:var(--color-accent); font-weight:bold;">Panel Admin</a></li>
         </ul>
       </nav>
       <nav class="footer__nav" aria-label="Sección legal">

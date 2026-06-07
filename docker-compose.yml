@@ -1,0 +1,39 @@
+services:
+  # Base de Datos (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    container_name: ratatouille-db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ratatouille_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Backend (FastAPI)
+  backend:
+    build: ./backend
+    container_name: ratatouille-backend
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/ratatouille_db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  # Frontend (Nginx)
+  frontend:
+    build: ./frontend
+    container_name: ratatouille-frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

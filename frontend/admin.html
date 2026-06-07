@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Ratatouille Bistró</title>
+    <link rel="stylesheet" href="ratatouille.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        :root {
+            --bg-admin: #f4f4f9;
+            --white: #ffffff;
+            --accent: #C0392B;
+            --text: #2C2C2C;
+        }
+        body { background-color: var(--bg-admin); }
+        .admin-main { padding: 120px 20px 60px; max-width: 1200px; margin: 0 auto; }
+        .admin-header { margin-bottom: 40px; text-align: center; }
+        
+        /* LOGIN STYLES */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        .login-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* HIDDEN BY DEFAULT */
+        #admin-content { display: none; }
+        #login-section { display: none; }
+
+        .admin-nav { 
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .admin-nav__btn {
+            padding: 10px 25px;
+            background: var(--white);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+        .admin-nav__btn--active, .admin-nav__btn:hover {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .admin-section { display: none; animation: fadeIn 0.5s ease; }
+        .admin-section--active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chart-card { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .chart-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 25px; color: var(--text); border-bottom: 2px solid var(--bg-admin); padding-bottom: 10px; }
+
+        .table-container { overflow-x: auto; background: var(--white); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th { background: var(--accent); color: var(--white); text-align: left; padding: 15px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        td { padding: 15px; border-bottom: 1px solid #eee; font-size: 0.9rem; color: #555; }
+        tr:hover { background: #f9f9f9; }
+        
+        .badge { padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .badge--reserva { background: #E8F8F5; color: #1ABC9C; }
+        .badge--contacto { background: #FEF9E7; color: #F1C40F; }
+    </style>
+</head>
+<body>
+    <header class="nav nav--scrolled">
+        <a href="ratatouille.html" class="nav__logo">
+            <span class="nav__logo-icon">🐭</span>
+            <span class="nav__logo-text" style="color: var(--accent);">Ratatouille Admin</span>
+        </a>
+        <div id="logout-wrap" style="display:none;">
+            <button id="btn-logout" class="nav__cta" style="background:transparent; color:var(--accent); border:1px solid var(--accent);">Cerrar Sesión</button>
+            <a href="ratatouille.html" class="nav__cta">Volver al Sitio</a>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        
+        <!-- SECCIÓN LOGIN -->
+        <section id="login-section" class="login-container">
+            <div class="login-card">
+                <h2 class="chart-title" style="text-align:center;">Acceso Administrador</h2>
+                <form id="form-login" class="form">
+                    <div class="form__field">
+                        <label class="form__label">Usuario</label>
+                        <input type="text" name="username" class="form__input" required>
+                    </div>
+                    <div class="form__field">
+                        <label class="form__label">Contraseña</label>
+                        <input type="password" name="password" class="form__input" required>
+                    </div>
+                    <div id="login-error" class="form__error"></div>
+                    <button type="submit" class="btn btn--primary btn--full">Entrar</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- CONTENIDO ADMIN -->
+        <div id="admin-content">
+            <div class="admin-header">
+                <h1 class="hero__title" style="color: var(--text); font-size: 2.5rem;">Panel de <em>Control</em></h1>
+                <p class="about__body">Gestión centralizada de tu restaurante.</p>
+            </div>
+
+            <nav class="admin-nav">
+                <button class="admin-nav__btn admin-nav__btn--active" data-target="stats">Estadísticas</button>
+                <button class="admin-nav__btn" data-target="reservas">Reservas</button>
+                <button class="admin-nav__btn" data-target="contactos">Contactos</button>
+            </nav>
+
+            <section id="stats" class="admin-section admin-section--active">
+                <div class="chart-card">
+                    <h2 class="chart-title">Distribución del Menú</h2>
+                    <div id="chart-menu"></div>
+                </div>
+            </section>
+
+            <section id="reservas" class="admin-section">
+                <div class="chart-card">
+                    <h2 class="chart-title">Listado de Reservas</h2>
+                    <div class="table-container">
+                        <table id="table-reservas">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Email</th>
+                                    <th>Personas</th>
+                                    <th>Fecha</th>
+                                    <th>Horario</th>
+                                    <th>Notas</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contactos" class="admin-section">
+                <div class="chart-card">
+                    <h2 class="chart-title">Mensajes de Contacto</h2>
+                    <div class="table-container">
+                        <table id="table-contactos">
+                            <thead>
+                                <tr>
+                                    <th>Remitente</th>
+                                    <th>Email</th>
+                                    <th>Mensaje</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            initLogin();
+            initAdminNav();
+            initLogout();
+        });
+
+        function checkAuth() {
+            const user = JSON.parse(localStorage.getItem('admin_user'));
+            if (user && user.role === 'administrador') {
+                showAdmin();
+            } else {
+                showLogin();
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('login-section').style.display = 'flex';
+            document.getElementById('admin-content').style.display = 'none';
+            document.getElementById('logout-wrap').style.display = 'none';
+        }
+
+        function showAdmin() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('admin-content').style.display = 'block';
+            document.getElementById('logout-wrap').style.display = 'flex';
+            loadStats();
+            loadReservations();
+            loadContacts();
+        }
+
+        function initLogin() {
+            const loginForm = document.getElementById('form-login');
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(loginForm);
+                const data = Object.fromEntries(formData.entries());
+                const errorDiv = document.getElementById('login-error');
+
+                try {
+                    const response = await fetch(`${API_URL}/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        const user = await response.json();
+                        localStorage.setItem('admin_user', JSON.stringify(user));
+                        showAdmin();
+                    } else {
+                        errorDiv.textContent = 'Usuario o contraseña incorrectos';
+                    }
+                } catch (error) {
+                    errorDiv.textContent = 'Error de conexión con el servidor';
+                }
+            });
+        }
+
+        function initLogout() {
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                localStorage.removeItem('admin_user');
+                showLogin();
+            });
+        }
+
+        function initAdminNav() {
+            const btns = document.querySelectorAll('.admin-nav__btn');
+            const sections = document.querySelectorAll('.admin-section');
+
+            btns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = btn.dataset.target;
+                    btns.forEach(b => b.classList.remove('admin-nav__btn--active'));
+                    btn.classList.add('admin-nav__btn--active');
+                    sections.forEach(s => {
+                        s.classList.remove('admin-section--active');
+                        if(s.id === target) s.classList.add('admin-section--active');
+                    });
+                });
+            });
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_URL}/stats`);
+                const data = await response.json();
+                const options = {
+                    series: data.cantidades,
+                    chart: { type: 'donut', height: 350 },
+                    labels: data.categorias,
+                    colors: ['#C0392B', '#2C2C2C', '#E8DCC8', '#5A5A5A'],
+                    legend: { position: 'bottom' }
+                };
+                const chart = new ApexCharts(document.querySelector("#chart-menu"), options);
+                chart.render();
+            } catch (error) { console.error('Stats error:', error); }
+        }
+
+        async function loadReservations() {
+            const tbody = document.querySelector('#table-reservas tbody');
+            try {
+                const response = await fetch(`${API_URL}/reservations`);
+                const data = await response.json();
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No hay reservas registradas</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = data.map(res => `
+                    <tr>
+                        <td><strong>${res.name}</strong><br><small>${res.phone || ''}</small></td>
+                        <td>${res.email}</td>
+                        <td><span class="badge badge--reserva">${res.people} personas</span></td>
+                        <td>${res.date}</td>
+                        <td>${res.time} hs</td>
+                        <td>${res.notes || '-'}</td>
+                    </tr>
+                `).join('');
+            } catch (error) { console.error('Reservations error:', error); }
+        }
+
+        async function loadContacts() {
+            const tbody = document.querySelector('#table-contactos tbody');
+            try {
+                const response = await fetch(`${API_URL}/contacts`);
+                const data = await response.json();
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">No hay mensajes recibidos</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = data.map(c => `
+                    <tr>
+                        <td><strong>${c.name}</strong></td>
+                        <td>${c.email}</td>
+                        <td>${c.message}</td>
+                        <td><span class="badge badge--contacto">${c.status}</span></td>
+                    </tr>
+                `).join('');
+            } catch (error) { console.error('Contacts error:', error); }
+        }
+    </script>
+</body>
+</html>
