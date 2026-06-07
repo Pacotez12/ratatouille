@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Database (SQLite residual)
+*.db
+*.sqlite3
+
+# Docker
+.docker-ignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific
+frontend/node_modules/
+backend/.pytest_cache/

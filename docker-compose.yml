@@ -24,6 +24,8 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    volumes:
+      - product_images:/app/static
 
   # Frontend (Nginx)
   frontend:
@@ -37,3 +39,4 @@ services:
 
 volumes:
   postgres_data:
+  product_images:
