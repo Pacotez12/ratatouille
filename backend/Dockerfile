@@ -21,5 +21,5 @@ COPY . .
 # Exponer el puerto
 EXPOSE 8000
 
-# Comando para iniciar el servidor
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Comando para automatizar el seed e iniciar el servidor (directamente en CMD para evitar problemas de entrypoint)
+CMD python seed_db.py && uvicorn main:app --host 0.0.0.0 --port 8000

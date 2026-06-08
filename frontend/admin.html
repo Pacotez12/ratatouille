@@ -12,62 +12,29 @@
             --white: #ffffff;
             --accent: #C0392B;
             --text: #2C2C2C;
+            --success: #27ae60;
         }
         body { background-color: var(--bg-admin); }
         .admin-main { padding: 120px 20px 60px; max-width: 1200px; margin: 0 auto; }
         .admin-header { margin-bottom: 40px; text-align: center; }
         
         /* LOGIN STYLES */
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80vh;
-        }
-        .login-card {
-            background: var(--white);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-        }
+        .login-container { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
+        .login-card { background: var(--white); padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
 
-        /* HIDDEN BY DEFAULT */
-        #admin-content { display: none; }
-        #login-section { display: none; }
+        #admin-content, #login-section { display: none; }
 
-        .admin-nav { 
-            display: flex; 
-            justify-content: center; 
-            gap: 20px; 
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-        .admin-nav__btn {
-            padding: 10px 25px;
-            background: var(--white);
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.3s;
-        }
-        .admin-nav__btn--active, .admin-nav__btn:hover {
-            background: var(--accent);
-            color: var(--white);
-        }
+        .admin-nav { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+        .admin-nav__btn { padding: 10px 25px; background: var(--white); border: 2px solid var(--accent); color: var(--accent); border-radius: 50px; font-weight: 700; transition: all 0.3s; cursor: pointer; }
+        .admin-nav__btn--active, .admin-nav__btn:hover { background: var(--accent); color: var(--white); }
 
         .admin-section { display: none; animation: fadeIn 0.5s ease; }
         .admin-section--active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .chart-card { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        .chart-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 25px; color: var(--text); border-bottom: 2px solid var(--bg-admin); padding-bottom: 10px; }
+        .chart-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 25px; color: var(--text); border-bottom: 2px solid var(--bg-admin); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 
         .table-container { overflow-x: auto; background: var(--white); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
@@ -78,6 +45,24 @@
         .badge { padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
         .badge--reserva { background: #E8F8F5; color: #1ABC9C; }
         .badge--contacto { background: #FEF9E7; color: #F1C40F; }
+        .badge--categoria { background: #eee; color: #666; }
+
+        /* MODAL STYLES */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+        .modal--active { display: flex; }
+        .modal__content { background: var(--white); padding: 40px; border-radius: 12px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; position: relative; }
+        .modal__close { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: #999; }
+
+        /* UPLOAD ZONE */
+        .upload-zone { border: 2px dashed #ccc; padding: 30px; text-align: center; border-radius: 8px; margin-bottom: 20px; transition: all 0.3s; cursor: pointer; background: #fafafa; }
+        .upload-zone--drag { border-color: var(--accent); background: #fff5f5; }
+        .upload-zone__preview { max-width: 100%; max-height: 200px; margin-top: 15px; border-radius: 8px; display: none; }
+        .upload-zone__icon { font-size: 40px; margin-bottom: 10px; display: block; }
+
+        .btn--delete { background: #ebedef; color: #e74c3c; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .btn--delete:hover { background: #e74c3c; color: #fff; }
+
+        .form__status--loading { color: #3498db; }
     </style>
 </head>
 <body>
@@ -122,10 +107,12 @@
 
             <nav class="admin-nav">
                 <button class="admin-nav__btn admin-nav__btn--active" data-target="stats">Estadísticas</button>
+                <button class="admin-nav__btn" data-target="platos">Platos</button>
                 <button class="admin-nav__btn" data-target="reservas">Reservas</button>
                 <button class="admin-nav__btn" data-target="contactos">Contactos</button>
             </nav>
 
+            <!-- SECCIÓN ESTADÍSTICAS -->
             <section id="stats" class="admin-section admin-section--active">
                 <div class="chart-card">
                     <h2 class="chart-title">Distribución del Menú</h2>
@@ -133,6 +120,31 @@
                 </div>
             </section>
 
+            <!-- SECCIÓN PLATOS (CRUD) -->
+            <section id="platos" class="admin-section">
+                <div class="chart-card">
+                    <div class="chart-title">
+                        Listado de Platos
+                        <button class="btn btn--primary" id="btn-nuevo-plato" style="padding: 8px 20px; font-size: 0.9rem;">+ Nuevo Plato</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="table-platos">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN RESERVAS -->
             <section id="reservas" class="admin-section">
                 <div class="chart-card">
                     <h2 class="chart-title">Listado de Reservas</h2>
@@ -154,6 +166,7 @@
                 </div>
             </section>
 
+            <!-- SECCIÓN CONTACTOS -->
             <section id="contactos" class="admin-section">
                 <div class="chart-card">
                     <h2 class="chart-title">Mensajes de Contacto</h2>
@@ -175,6 +188,53 @@
         </div>
     </main>
 
+    <!-- MODAL NUEVO PLATO -->
+    <div class="modal" id="modal-plato">
+        <div class="modal__content">
+            <span class="modal__close" id="close-modal">&times;</span>
+            <h2 class="chart-title">Agregar Nuevo Plato</h2>
+            <form id="form-plato" class="form">
+                <div class="form__field">
+                    <label class="form__label">Nombre del Plato *</label>
+                    <input type="text" name="name" class="form__input" required placeholder="Ej. Ratatouille Suprema">
+                </div>
+                <div class="form__field">
+                    <label class="form__label">Descripción *</label>
+                    <textarea name="description" class="form__input form__input--textarea" required rows="3"></textarea>
+                </div>
+                <div class="form__row">
+                    <div class="form__field">
+                        <label class="form__label">Precio (Gs.) *</label>
+                        <input type="number" name="price" class="form__input" required>
+                    </div>
+                    <div class="form__field">
+                        <label class="form__label">Categoría *</label>
+                        <select name="category" class="form__input form__input--select" required>
+                            <option value="entrada">Entrada</option>
+                            <option value="principal">Principal</option>
+                            <option value="postre">Postre</option>
+                            <option value="bebida">Bebida</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form__field">
+                    <label class="form__label">Imagen del Plato *</label>
+                    <div class="upload-zone" id="upload-zone">
+                        <span class="upload-zone__icon">📸</span>
+                        <p id="upload-text">Arrastra una imagen, pégala aquí o haz clic para subir</p>
+                        <input type="file" id="file-input" style="display:none" accept="image/*">
+                        <img src="" class="upload-zone__preview" id="preview-img">
+                        <input type="hidden" name="image_path" id="image-path-input" required>
+                    </div>
+                </div>
+
+                <div id="plato-status" class="form__status"></div>
+                <button type="submit" class="btn btn--primary btn--full" id="btn-save-plato">Guardar Plato</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         const API_URL = 'http://localhost:8000/api';
 
@@ -183,15 +243,12 @@
             initLogin();
             initAdminNav();
             initLogout();
+            initPlatosCRUD();
         });
 
         function checkAuth() {
             const user = JSON.parse(localStorage.getItem('admin_user'));
-            if (user && user.role === 'administrador') {
-                showAdmin();
-            } else {
-                showLogin();
-            }
+            if (user && user.role === 'administrador') { showAdmin(); } else { showLogin(); }
         }
 
         function showLogin() {
@@ -207,6 +264,7 @@
             loadStats();
             loadReservations();
             loadContacts();
+            loadProducts();
         }
 
         function initLogin() {
@@ -216,24 +274,18 @@
                 const formData = new FormData(loginForm);
                 const data = Object.fromEntries(formData.entries());
                 const errorDiv = document.getElementById('login-error');
-
                 try {
                     const response = await fetch(`${API_URL}/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
                     });
-
                     if (response.ok) {
                         const user = await response.json();
                         localStorage.setItem('admin_user', JSON.stringify(user));
                         showAdmin();
-                    } else {
-                        errorDiv.textContent = 'Usuario o contraseña incorrectos';
-                    }
-                } catch (error) {
-                    errorDiv.textContent = 'Error de conexión con el servidor';
-                }
+                    } else { errorDiv.textContent = 'Usuario o contraseña incorrectos'; }
+                } catch (error) { errorDiv.textContent = 'Error de conexión'; }
             });
         }
 
@@ -247,7 +299,6 @@
         function initAdminNav() {
             const btns = document.querySelectorAll('.admin-nav__btn');
             const sections = document.querySelectorAll('.admin-section');
-
             btns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const target = btn.dataset.target;
@@ -261,10 +312,117 @@
             });
         }
 
+        // CRUD PLATOS LOGIC
+        function initPlatosCRUD() {
+            const modal = document.getElementById('modal-plato');
+            const btnNuevo = document.getElementById('btn-nuevo-plato');
+            const btnClose = document.getElementById('close-modal');
+            const uploadZone = document.getElementById('upload-zone');
+            const fileInput = document.getElementById('file-input');
+            const formPlato = document.getElementById('form-plato');
+
+            btnNuevo.onclick = () => { modal.classList.add('modal--active'); formPlato.reset(); document.getElementById('preview-img').style.display='none'; document.getElementById('upload-text').style.display='block'; };
+            btnClose.onclick = () => modal.classList.remove('modal--active');
+            window.onclick = (e) => { if (e.target == modal) modal.classList.remove('modal--active'); };
+
+            // UPLOAD LOGIC
+            uploadZone.onclick = () => fileInput.click();
+            uploadZone.ondragover = (e) => { e.preventDefault(); uploadZone.classList.add('upload-zone--drag'); };
+            uploadZone.ondragleave = () => uploadZone.classList.remove('upload-zone--drag');
+            uploadZone.ondrop = (e) => { e.preventDefault(); uploadZone.classList.remove('upload-zone--drag'); handleFiles(e.dataTransfer.files); };
+            fileInput.onchange = (e) => handleFiles(e.target.files);
+
+            // PASTE LOGIC
+            window.addEventListener('paste', (e) => {
+                if (!modal.classList.contains('modal--active')) return;
+                const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                for (let index in items) {
+                    const item = items[index];
+                    if (item.kind === 'file') { handleFiles([item.getAsFile()]); }
+                }
+            });
+
+            formPlato.onsubmit = async (e) => {
+                e.preventDefault();
+                const formData = new FormData(formPlato);
+                const data = Object.fromEntries(formData.entries());
+                data.price = parseFloat(data.price);
+                const status = document.getElementById('plato-status');
+                
+                try {
+                    const response = await fetch(`${API_URL}/products`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    if (response.ok) {
+                        modal.classList.remove('modal--active');
+                        loadProducts();
+                        loadStats();
+                    } else { status.textContent = 'Error al guardar el plato'; }
+                } catch (e) { status.textContent = 'Error de conexión'; }
+            };
+        }
+
+        async function handleFiles(files) {
+            if (files.length === 0) return;
+            const file = files[0];
+            if (!file.type.startsWith('image/')) return;
+
+            const status = document.getElementById('plato-status');
+            status.textContent = 'Subiendo imagen...';
+            status.className = 'form__status form__status--loading';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch(`${API_URL}/upload-image`, { method: 'POST', body: formData });
+                const data = await response.json();
+                
+                document.getElementById('image-path-input').value = data.image_path;
+                const preview = document.getElementById('preview-img');
+                preview.src = data.image_path;
+                preview.style.display = 'block';
+                document.getElementById('upload-text').style.display = 'none';
+                status.textContent = 'Imagen lista';
+                status.className = 'form__status form__status--success';
+            } catch (e) { status.textContent = 'Error al subir imagen'; status.className = 'form__status form__error'; }
+        }
+
+        async function loadProducts() {
+            const tbody = document.querySelector('#table-platos tbody');
+            try {
+                const response = await fetch(`${API_URL}/products`);
+                const data = await response.json();
+                tbody.innerHTML = data.map(p => `
+                    <tr>
+                        <td><img src="${p.image_path}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;"></td>
+                        <td><strong>${p.name}</strong></td>
+                        <td><span class="badge badge--categoria">${p.category}</span></td>
+                        <td>Gs. ${p.price.toLocaleString()}</td>
+                        <td><button class="btn--delete" onclick="deleteProduct(${p.id})">Eliminar</button></td>
+                    </tr>
+                `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('¿Seguro que deseas eliminar este plato?')) return;
+            try {
+                await fetch(`${API_URL}/products/${id}`, { method: 'DELETE' });
+                loadProducts();
+                loadStats();
+            } catch (e) { console.error(e); }
+        }
+
+        // LOADERS FOR OTHER SECTIONS
         async function loadStats() {
             try {
                 const response = await fetch(`${API_URL}/stats`);
                 const data = await response.json();
+                const chartContainer = document.querySelector("#chart-menu");
+                chartContainer.innerHTML = '';
                 const options = {
                     series: data.cantidades,
                     chart: { type: 'donut', height: 350 },
@@ -272,7 +430,7 @@
                     colors: ['#C0392B', '#2C2C2C', '#E8DCC8', '#5A5A5A'],
                     legend: { position: 'bottom' }
                 };
-                const chart = new ApexCharts(document.querySelector("#chart-menu"), options);
+                const chart = new ApexCharts(chartContainer, options);
                 chart.render();
             } catch (error) { console.error('Stats error:', error); }
         }
@@ -282,10 +440,7 @@
             try {
                 const response = await fetch(`${API_URL}/reservations`);
                 const data = await response.json();
-                if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No hay reservas registradas</td></tr>';
-                    return;
-                }
+                if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">No hay reservas</td></tr>'; return; }
                 tbody.innerHTML = data.map(res => `
                     <tr>
                         <td><strong>${res.name}</strong><br><small>${res.phone || ''}</small></td>
@@ -296,7 +451,7 @@
                         <td>${res.notes || '-'}</td>
                     </tr>
                 `).join('');
-            } catch (error) { console.error('Reservations error:', error); }
+            } catch (error) { console.error(error); }
         }
 
         async function loadContacts() {
@@ -304,10 +459,7 @@
             try {
                 const response = await fetch(`${API_URL}/contacts`);
                 const data = await response.json();
-                if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">No hay mensajes recibidos</td></tr>';
-                    return;
-                }
+                if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">No hay mensajes</td></tr>'; return; }
                 tbody.innerHTML = data.map(c => `
                     <tr>
                         <td><strong>${c.name}</strong></td>
@@ -316,7 +468,7 @@
                         <td><span class="badge badge--contacto">${c.status}</span></td>
                     </tr>
                 `).join('');
-            } catch (error) { console.error('Contacts error:', error); }
+            } catch (error) { console.error(error); }
         }
     </script>
 </body>

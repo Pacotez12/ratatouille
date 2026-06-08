@@ -150,7 +150,6 @@ function renderMenu(products) {
                 <p class="card__desc">${product.description}</p>
                 <div class="card__footer">
                     <span class="card__price">Gs. ${product.price.toLocaleString()}</span>
-                    <button class="card__add" data-id="${product.id}">+ Agregar</button>
                 </div>
             </div>
         `;
