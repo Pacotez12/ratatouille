@@ -248,7 +248,7 @@
                     <label class="form__label">Imagen del Plato *</label>
                     <div class="upload-zone" id="upload-zone">
                         <span class="upload-zone__icon">📸</span>
-                        <p id="upload-text">Arrastra una imagen, pégala aquí o haz clic para subir</p>
+                        <p id="upload-text">Examinar</p>
                         <input type="file" id="file-input" style="display:none" accept="image/*">
                         <img src="" class="upload-zone__preview" id="preview-img">
                         <input type="hidden" name="image_path" id="image-path-input" required>
@@ -694,6 +694,49 @@
                     status.className = 'form__status form__error';
                 }
             });
+        }
+
+        async function handleFiles(files) {
+            if (files.length === 0) return;
+            const file = files[0];
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor, selecciona una imagen válida.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const status = document.getElementById('plato-status');
+            const preview = document.getElementById('preview-img');
+            const uploadText = document.getElementById('upload-text');
+            const imagePathInput = document.getElementById('image-path-input');
+
+            try {
+                status.textContent = 'Subiendo imagen...';
+                status.className = 'form__status form__status--loading';
+
+                const response = await fetch(`${API_URL}/upload-image`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    imagePathInput.value = result.image_path;
+                    preview.src = `http://localhost:8000${result.image_path}`;
+                    preview.style.display = 'block';
+                    uploadText.style.display = 'none';
+                    status.textContent = 'Imagen subida con éxito';
+                    status.className = 'form__status form__status--success';
+                } else {
+                    throw new Error('Error en la subida');
+                }
+            } catch (error) {
+                status.textContent = 'Error al subir la imagen';
+                status.className = 'form__status form__status--error';
+                console.error(error);
+            }
         }
 
         async function loadUsers() {

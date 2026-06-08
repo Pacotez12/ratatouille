@@ -1605,18 +1605,22 @@ button {
   font-weight: 700;
 }
  
-/* El botón de postulación usa .btn--outline adaptado al contexto claro */
-.jobs__card .btn--sm {
-  align-self: flex-start;
+.jobs__card-contact {
+  font-size: var(--text-sm);
+  color: var(--color-comp-mid);
   margin-top: auto;
-  color: var(--color-accent);
-  border-color: var(--color-accent);
-  background: transparent;
+  line-height: 1.5;
 }
  
-.jobs__card .btn--sm:hover {
-  background: var(--color-accent);
-  color: var(--color-white);
+.jobs__card-contact a {
+  font-weight: 700;
+  color: var(--color-accent);
+  text-decoration: underline;
+  word-break: break-all;
+}
+ 
+.jobs__card-contact a:hover {
+  color: var(--color-accent-hover);
 }
  
 .jobs__open {
