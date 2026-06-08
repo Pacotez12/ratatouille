@@ -296,6 +296,7 @@ button {
   justify-content: space-between;
   padding: 0 var(--space-2xl);
   z-index: 1000;
+  background: transparent; /* Forzar transparencia inicial */
   transition: background var(--transition-normal),
               box-shadow var(--transition-normal);
 }
@@ -434,13 +435,19 @@ button {
   z-index: 999;
   box-shadow: var(--shadow-lg);
   transform: translateY(-110%);
-  transition: transform var(--transition-normal);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--transition-normal),
+              opacity var(--transition-normal),
+              visibility var(--transition-normal);
   border-top: 1px solid var(--color-dom-dark);
 }
 
 /* Clase .nav-mobile--open aplicada con classList.toggle() */
 .nav-mobile--open {
   transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 
 .nav-mobile__links {
@@ -481,6 +488,7 @@ button {
   );
   position: relative;
   overflow: hidden;
+  margin-top: 0; /* Reset extra de seguridad */
 }
 
 /* Textura sutil de fondo */

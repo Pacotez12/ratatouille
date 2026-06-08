@@ -9,6 +9,7 @@ import time
 import shutil
 import os
 import uuid
+from datetime import datetime
 
 # Asegurar directorios de carga
 UPLOAD_DIR = "static/uploads/products"
@@ -190,7 +191,10 @@ def get_stats(db_session: Session = Depends(get_db)):
     return stats
 
 @app.post("/api/track")
-def track_visit():
+def track_visit(db_session: Session = Depends(get_db)):
+    new_visit = db.Visit(timestamp=datetime.now().isoformat())
+    db_session.add(new_visit)
+    db_session.commit()
     return {"status": "success"}
 
 @app.get("/")

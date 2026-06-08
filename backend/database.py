@@ -53,5 +53,12 @@ class Reservation(Base):
     notes = Column(Text, nullable=True)
     status = Column(String, default="confirmada")
 
+# 5. TABLA DE VISITAS (Analítica)
+class Visit(Base):
+    __tablename__ = "visits"
+    id = Column(Integer, primary_key=True, index=True)
+    timestamp = Column(String)
+    user_agent = Column(String, nullable=True)
+
 def init_db():
     Base.metadata.create_all(bind=engine)

@@ -67,13 +67,13 @@
 </head>
 <body>
     <header class="nav nav--scrolled">
-        <a href="ratatouille.html" class="nav__logo">
+        <a href="index.html" class="nav__logo">
             <span class="nav__logo-icon">🐭</span>
             <span class="nav__logo-text" style="color: var(--accent);">Ratatouille Admin</span>
         </a>
         <div id="logout-wrap" style="display:none;">
             <button id="btn-logout" class="nav__cta" style="background:transparent; color:var(--accent); border:1px solid var(--accent);">Cerrar Sesión</button>
-            <a href="ratatouille.html" class="nav__cta">Volver al Sitio</a>
+            <a href="index.html" class="nav__cta">Volver al Sitio</a>
         </div>
     </header>
 
@@ -320,17 +320,35 @@
             const uploadZone = document.getElementById('upload-zone');
             const fileInput = document.getElementById('file-input');
             const formPlato = document.getElementById('form-plato');
+            const tablePlatos = document.getElementById('table-platos');
 
-            btnNuevo.onclick = () => { modal.classList.add('modal--active'); formPlato.reset(); document.getElementById('preview-img').style.display='none'; document.getElementById('upload-text').style.display='block'; };
-            btnClose.onclick = () => modal.classList.remove('modal--active');
-            window.onclick = (e) => { if (e.target == modal) modal.classList.remove('modal--active'); };
+            // Delegación de eventos para eliminar
+            tablePlatos.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-delete-product')) {
+                    const id = e.target.dataset.id;
+                    deleteProduct(id);
+                }
+            });
+
+            btnNuevo.addEventListener('click', () => { 
+                modal.classList.add('modal--active'); 
+                formPlato.reset(); 
+                document.getElementById('preview-img').style.display='none'; 
+                document.getElementById('upload-text').style.display='block'; 
+            });
+            
+            btnClose.addEventListener('click', () => modal.classList.remove('modal--active'));
+            
+            window.addEventListener('click', (e) => { 
+                if (e.target == modal) modal.classList.remove('modal--active'); 
+            });
 
             // UPLOAD LOGIC
-            uploadZone.onclick = () => fileInput.click();
-            uploadZone.ondragover = (e) => { e.preventDefault(); uploadZone.classList.add('upload-zone--drag'); };
-            uploadZone.ondragleave = () => uploadZone.classList.remove('upload-zone--drag');
-            uploadZone.ondrop = (e) => { e.preventDefault(); uploadZone.classList.remove('upload-zone--drag'); handleFiles(e.dataTransfer.files); };
-            fileInput.onchange = (e) => handleFiles(e.target.files);
+            uploadZone.addEventListener('click', () => fileInput.click());
+            uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('upload-zone--drag'); });
+            uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('upload-zone--drag'));
+            uploadZone.addEventListener('drop', (e) => { e.preventDefault(); uploadZone.classList.remove('upload-zone--drag'); handleFiles(e.dataTransfer.files); });
+            fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
 
             // PASTE LOGIC
             window.addEventListener('paste', (e) => {
@@ -342,7 +360,7 @@
                 }
             });
 
-            formPlato.onsubmit = async (e) => {
+            formPlato.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const formData = new FormData(formPlato);
                 const data = Object.fromEntries(formData.entries());
@@ -361,7 +379,7 @@
                         loadStats();
                     } else { status.textContent = 'Error al guardar el plato'; }
                 } catch (e) { status.textContent = 'Error de conexión'; }
-            };
+            });
         }
 
         async function handleFiles(files) {
@@ -401,7 +419,7 @@
                         <td><strong>${p.name}</strong></td>
                         <td><span class="badge badge--categoria">${p.category}</span></td>
                         <td>Gs. ${p.price.toLocaleString()}</td>
-                        <td><button class="btn--delete" onclick="deleteProduct(${p.id})">Eliminar</button></td>
+                        <td><button class="btn--delete btn-delete-product" data-id="${p.id}">Eliminar</button></td>
                     </tr>
                 `).join('');
             } catch (e) { console.error(e); }

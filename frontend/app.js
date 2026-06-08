@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initCookieBanner();
     initScrollReveal();
+    initDateValidation();
 
     // 2. CARGA DINÁMICA DE MENÚ
     fetchProducts();
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. VALIDACIÓN DE FORMULARIOS
     initFormValidation();
 
-    // 4. ANALÍTICA SIMULADA (Lineamiento 5)
+    // 4. ANALÍTICA (Lineamiento 5)
     trackVisit();
 });
 
@@ -112,6 +113,13 @@ function initScrollReveal() {
     });
 }
 
+function initDateValidation() {
+    // Establece fecha mínima = hoy ("No me hagas errar" — Lineamiento 1A)
+    const hoy = new Date().toISOString().split('T')[0];
+    const fechaInput = document.getElementById('fecha');
+    if (fechaInput) fechaInput.min = hoy;
+}
+
 /* ─────────────────────────────────────────────
    2. CARGA DINÁMICA DE MENÚ (Lineamiento 4)
 ───────────────────────────────────────────── */
@@ -125,15 +133,20 @@ async function fetchProducts() {
         if (!response.ok) throw new Error('Error al cargar productos');
         const products = await response.json();
         renderMenu(products);
+        
+        // Aplicar filtro guardado en SessionStorage (Punto 2 Web Storage)
+        const savedFilter = sessionStorage.getItem('active-menu-filter');
+        if (savedFilter) {
+            applyFilter(savedFilter);
+        }
     } catch (error) {
         console.error('API Error:', error);
-        // Fallback: Si la API falla, el HTML ya tiene contenido estático.
     }
 }
 
 function renderMenu(products) {
     const menuGrid = document.getElementById('menu-grid');
-    menuGrid.innerHTML = ''; // Limpiar estático
+    menuGrid.innerHTML = ''; 
 
     products.forEach(product => {
         const card = document.createElement('article');
@@ -161,26 +174,39 @@ function renderMenu(products) {
 
 function initMenuFilters() {
     const filters = document.querySelectorAll('.menu__filter');
-    const cards = document.querySelectorAll('.card');
-
+    
     filters.forEach(btn => {
         btn.addEventListener('click', () => {
-            // UI Update
-            filters.forEach(b => b.classList.remove('menu__filter--active'));
-            btn.classList.add('menu__filter--active');
-
             const filterValue = btn.getAttribute('data-filter');
-
-            cards.forEach(card => {
-                if (filterValue === 'todos' || card.getAttribute('data-category') === filterValue) {
-                    card.style.display = 'block';
-                    setTimeout(() => card.style.opacity = '1', 10);
-                } else {
-                    card.style.opacity = '0';
-                    setTimeout(() => card.style.display = 'none', 300);
-                }
-            });
+            
+            // Persistir en SessionStorage (Lineamiento 2)
+            sessionStorage.setItem('active-menu-filter', filterValue);
+            
+            applyFilter(filterValue);
         });
+    });
+}
+
+function applyFilter(filterValue) {
+    const filters = document.querySelectorAll('.menu__filter');
+    const cards = document.querySelectorAll('.card');
+
+    // UI Update botones
+    filters.forEach(b => {
+        b.classList.remove('menu__filter--active');
+        if (b.getAttribute('data-filter') === filterValue) {
+            b.classList.add('menu__filter--active');
+        }
+    });
+
+    cards.forEach(card => {
+        if (filterValue === 'todos' || card.getAttribute('data-category') === filterValue) {
+            card.style.display = 'block';
+            setTimeout(() => card.style.opacity = '1', 10);
+        } else {
+            card.style.opacity = '0';
+            setTimeout(() => card.style.display = 'none', 300);
+        }
     });
 }
 
@@ -238,7 +264,14 @@ function initFormValidation() {
 }
 
 async function sendFormData(url, data, form) {
+    const btn = form.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    
     try {
+        // Estado de carga (Heurística 1A: Visibilidad)
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+        
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -254,6 +287,9 @@ async function sendFormData(url, data, form) {
         }
     } catch (error) {
         showStatus(form, 'Error al enviar. Intente más tarde.', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
     }
 }
 
