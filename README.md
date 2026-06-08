@@ -187,7 +187,7 @@ Para reportar issues o preguntas, contactar a través del formulario de contacto
 
 ## 📄 Licencia
 
-Proyecto de grupo académico - Universidad Nacional de Asunción (UNA)
+Proyecto de grupo académico - UNINORTE
 
 ---
 

@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. NAVEGACIÓN Y UI
     initNavigation();
     initCookieBanner();
+    initLegalModals();
     initScrollReveal();
     initDateValidation();
 
@@ -345,4 +346,80 @@ function showToast(message) {
     toast.textContent = message;
     toast.classList.add('toast--visible');
     setTimeout(() => toast.classList.remove('toast--visible'), 3000);
+}
+
+/* ─────────────────────────────────────────────
+   5. ASPECTOS LEGALES (Lineamiento 5)
+───────────────────────────────────────────── */
+function initLegalModals() {
+    const btnLegalLinks = document.querySelectorAll('.btn-legal');
+    const modalLegal = document.getElementById('modal-legal');
+    const btnCloseLegal = document.getElementById('close-modal-legal');
+    const legalTitle = document.getElementById('legal-title');
+    const legalContent = document.getElementById('legal-content');
+    const btnReopenCookies = document.getElementById('btn-reopen-cookies');
+
+    const textosLegales = {
+        terminos: {
+            title: "Términos y Condiciones",
+            content: `
+                <p><strong>1. Aceptación de los Términos</strong><br>
+                Al acceder y utilizar el sitio web de Ratatouille Bistró, usted acepta estar sujeto a estos términos y condiciones. Si no está de acuerdo con alguna parte de estos términos, no debe utilizar nuestro sitio web.</p>
+                <br>
+                <p><strong>2. Reservas y Cancelaciones</strong><br>
+                Las reservas están sujetas a disponibilidad. Ratatouille Bistró se reserva el derecho de cancelar o modificar reservas en circunstancias excepcionales. Solicitamos amablemente que cualquier cancelación se realice con al menos 24 horas de anticipación.</p>
+                <br>
+                <p><strong>3. Propiedad Intelectual</strong><br>
+                Todo el contenido, incluyendo textos, gráficos, logotipos e imágenes en este sitio web es propiedad de Ratatouille Bistró y está protegido por las leyes de propiedad intelectual internacionales y de Paraguay.</p>
+            `
+        },
+        privacidad: {
+            title: "Política de Privacidad",
+            content: `
+                <p><strong>1. Recopilación de Información</strong><br>
+                Recopilamos información personal (como nombre, correo electrónico y número de teléfono) que usted proporciona voluntariamente al realizar una reserva o utilizar nuestro formulario de contacto.</p>
+                <br>
+                <p><strong>2. Uso de la Información</strong><br>
+                La información recopilada se utiliza exclusivamente para gestionar sus reservas, responder a sus consultas y mejorar nuestros servicios. No vendemos ni compartimos su información personal con terceros.</p>
+                <br>
+                <p><strong>3. Protección de Datos</strong><br>
+                Implementamos medidas de seguridad para proteger su información personal contra el acceso no autorizado, la alteración, divulgación o destrucción.</p>
+            `
+        }
+    };
+
+    btnLegalLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const tipo = link.getAttribute('data-legal');
+            if (textosLegales[tipo]) {
+                legalTitle.textContent = textosLegales[tipo].title;
+                legalContent.innerHTML = textosLegales[tipo].content;
+                modalLegal.style.display = 'flex';
+            }
+        });
+    });
+
+    if (btnCloseLegal) {
+        btnCloseLegal.addEventListener('click', () => {
+            modalLegal.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modalLegal) {
+            modalLegal.style.display = 'none';
+        }
+    });
+
+    if (btnReopenCookies) {
+        btnReopenCookies.addEventListener('click', (e) => {
+            e.preventDefault();
+            const banner = document.getElementById('cookie-banner');
+            if (banner) {
+                banner.style.display = 'flex';
+                banner.classList.remove('cookie--hidden');
+            }
+        });
+    }
 }
