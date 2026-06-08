@@ -45,10 +45,10 @@
   --space-sm:  0.5rem;
   --space-md:  1rem;
   --space-lg:  1.5rem;
-  --space-xl:  2rem;
-  --space-2xl: 4rem;
-  --space-3xl: 6rem;
-  --space-4xl: 10rem;
+  --space-xl:  2.25rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 6.5rem;
+  --space-4xl: 11rem;
 
   /* Bordes y sombras */
   --radius-sm:  8px;
@@ -56,15 +56,15 @@
   --radius-lg:  24px;
   --radius-full: 9999px;
 
-  --shadow-sm:  0 2px 8px rgba(44, 44, 44, 0.08);
-  --shadow-md:  0 6px 24px rgba(44, 44, 44, 0.12);
-  --shadow-lg:  0 16px 48px rgba(44, 44, 44, 0.16);
-  --shadow-xl:  0 32px 80px rgba(44, 44, 44, 0.20);
+  --shadow-sm:  0 3px 10px rgba(44, 44, 44, 0.1);
+  --shadow-md:  0 8px 28px rgba(44, 44, 44, 0.14);
+  --shadow-lg:  0 20px 56px rgba(44, 44, 44, 0.18);
+  --shadow-xl:  0 40px 96px rgba(44, 44, 44, 0.24);
 
   /* Transiciones */
-  --transition-fast:   0.15s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow:   0.5s ease;
+  --transition-fast:   0.2s cubic-bezier(0.23, 1, 0.320, 1);
+  --transition-normal: 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  --transition-slow:   0.6s cubic-bezier(0.23, 1, 0.320, 1);
 
   /* Layout */
   --container-max: 1200px;
@@ -170,8 +170,8 @@ button {
 .btn--primary:hover {
   background-color: var(--color-accent-hover);
   border-color: var(--color-accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(192, 57, 43, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(192, 57, 43, 0.45);
 }
 
 .btn--ghost {
@@ -385,7 +385,8 @@ button {
 .nav__cta:hover {
   background-color: var(--color-accent-hover);
   color: var(--color-white);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(192, 57, 43, 0.3);
 }
 
 /* Hamburguesa (visible en mobile) */
