@@ -139,6 +139,16 @@ async function fetchProducts() {
         if (savedFilter) {
             applyFilter(savedFilter);
         }
+
+        // Actualizar la estadística de Platos en Carta dinámicamente
+        const statsResponse = await fetch(`${API_URL}/stats`);
+        if (statsResponse.ok) {
+            const stats = await statsResponse.json();
+            const statsPlatosEl = document.getElementById('stats-platos');
+            if (statsPlatosEl) {
+                statsPlatosEl.textContent = stats.total_platos;
+            }
+        }
     } catch (error) {
         console.error('API Error:', error);
     }
@@ -155,7 +165,7 @@ function renderMenu(products) {
         
         card.innerHTML = `
             <div class="card__img-wrap">
-                <img src="${product.image_path}" alt="${product.name}" class="card__img" loading="lazy" />
+                <img src="${product.image_path.startsWith('/') ? 'http://localhost:8000' + product.image_path : product.image_path}" alt="${product.name}" class="card__img" loading="lazy" />
             </div>
             <div class="card__body">
                 <span class="card__category">${product.category}</span>

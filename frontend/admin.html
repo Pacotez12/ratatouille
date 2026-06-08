@@ -101,15 +101,16 @@
         <!-- CONTENIDO ADMIN -->
         <div id="admin-content">
             <div class="admin-header">
-                <h1 class="hero__title" style="color: var(--text); font-size: 2.5rem;">Panel de <em>Control</em></h1>
-                <p class="about__body">Gestión centralizada de tu restaurante.</p>
+                <h1 class="hero__title" style="color: var(--text); font-size: 2.5rem;" id="admin-greeting">Panel de <em>Control</em></h1>
+                <p class="about__body" id="admin-role-display">Gestión centralizada de tu restaurante.</p>
             </div>
 
-            <nav class="admin-nav">
-                <button class="admin-nav__btn admin-nav__btn--active" data-target="stats">Estadísticas</button>
-                <button class="admin-nav__btn" data-target="platos">Platos</button>
-                <button class="admin-nav__btn" data-target="reservas">Reservas</button>
-                <button class="admin-nav__btn" data-target="contactos">Contactos</button>
+            <nav class="admin-nav" id="admin-nav">
+                <button class="admin-nav__btn admin-nav__btn--active" id="btn-nav-stats" data-target="stats">Estadísticas</button>
+                <button class="admin-nav__btn" id="btn-nav-platos" data-target="platos">Platos</button>
+                <button class="admin-nav__btn" id="btn-nav-reservas" data-target="reservas">Reservas</button>
+                <button class="admin-nav__btn" id="btn-nav-contactos" data-target="contactos">Contactos</button>
+                <button class="admin-nav__btn" id="btn-nav-usuarios" data-target="usuarios" style="display:none;">Usuarios</button>
             </nav>
 
             <!-- SECCIÓN ESTADÍSTICAS -->
@@ -117,6 +118,30 @@
                 <div class="chart-card">
                     <h2 class="chart-title">Distribución del Menú</h2>
                     <div id="chart-menu"></div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN USUARIOS (Solo Superadmin) -->
+            <section id="usuarios" class="admin-section">
+                <div class="chart-card">
+                    <div class="chart-title">
+                        Listado de Usuarios
+                        <button class="btn btn--primary" id="btn-nuevo-usuario" style="padding: 8px 20px; font-size: 0.9rem;">+ Nuevo Usuario</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="table-usuarios">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Usuario</th>
+                                    <th>Email</th>
+                                    <th>Rol</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
@@ -192,24 +217,25 @@
     <div class="modal" id="modal-plato">
         <div class="modal__content">
             <span class="modal__close" id="close-modal">&times;</span>
-            <h2 class="chart-title">Agregar Nuevo Plato</h2>
+            <h2 class="chart-title" id="modal-plato-title">Agregar Nuevo Plato</h2>
             <form id="form-plato" class="form">
+                <input type="hidden" name="id" id="plato-id">
                 <div class="form__field">
                     <label class="form__label">Nombre del Plato *</label>
-                    <input type="text" name="name" class="form__input" required placeholder="Ej. Ratatouille Suprema">
+                    <input type="text" name="name" id="plato-name" class="form__input" required placeholder="Ej. Ratatouille Suprema">
                 </div>
                 <div class="form__field">
                     <label class="form__label">Descripción *</label>
-                    <textarea name="description" class="form__input form__input--textarea" required rows="3"></textarea>
+                    <textarea name="description" id="plato-desc" class="form__input form__input--textarea" required rows="3"></textarea>
                 </div>
                 <div class="form__row">
                     <div class="form__field">
                         <label class="form__label">Precio (Gs.) *</label>
-                        <input type="number" name="price" class="form__input" required>
+                        <input type="number" name="price" id="plato-price" class="form__input" required>
                     </div>
                     <div class="form__field">
                         <label class="form__label">Categoría *</label>
-                        <select name="category" class="form__input form__input--select" required>
+                        <select name="category" id="plato-category" class="form__input form__input--select" required>
                             <option value="entrada">Entrada</option>
                             <option value="principal">Principal</option>
                             <option value="postre">Postre</option>
@@ -235,6 +261,47 @@
         </div>
     </div>
 
+    <!-- MODAL NUEVO USUARIO -->
+    <div class="modal" id="modal-usuario">
+        <div class="modal__content">
+            <span class="modal__close" id="close-modal-usuario">&times;</span>
+            <h2 class="chart-title" id="modal-usuario-title">Agregar Nuevo Usuario</h2>
+            <form id="form-usuario" class="form">
+                <input type="hidden" name="id" id="usuario-id">
+                <div class="form__field">
+                    <label class="form__label">Nombre completo *</label>
+                    <input type="text" name="name" id="usuario-name" class="form__input" required>
+                </div>
+                <div class="form__row">
+                    <div class="form__field">
+                        <label class="form__label">Username *</label>
+                        <input type="text" name="username" id="usuario-username" class="form__input" required>
+                    </div>
+                    <div class="form__field">
+                        <label class="form__label">Email *</label>
+                        <input type="email" name="email" id="usuario-email" class="form__input" required>
+                    </div>
+                </div>
+                <div class="form__row">
+                    <div class="form__field">
+                        <label class="form__label">Contraseña</label>
+                        <input type="password" name="password_hash" id="usuario-password" class="form__input" placeholder="Dejar vacío para no cambiar">
+                    </div>
+                    <div class="form__field">
+                        <label class="form__label">Rol *</label>
+                        <select name="role" id="usuario-role" class="form__input form__input--select" required>
+                            <option value="operador">Operador</option>
+                            <option value="admin">Administrador</option>
+                            <option value="superadmin">Superadmin</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="usuario-status" class="form__status"></div>
+                <button type="submit" class="btn btn--primary btn--full" id="btn-save-usuario">Guardar Usuario</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         const API_URL = 'http://localhost:8000/api';
 
@@ -244,11 +311,17 @@
             initAdminNav();
             initLogout();
             initPlatosCRUD();
+            initUsuariosCRUD();
         });
 
         function checkAuth() {
             const user = JSON.parse(localStorage.getItem('admin_user'));
-            if (user && user.role === 'administrador') { showAdmin(); } else { showLogin(); }
+            // Seguridad: Si no hay usuario, forzar login de inmediato
+            if (user) { 
+                showAdmin(user); 
+            } else { 
+                showLogin(); 
+            }
         }
 
         function showLogin() {
@@ -257,14 +330,62 @@
             document.getElementById('logout-wrap').style.display = 'none';
         }
 
-        function showAdmin() {
+        function showAdmin(user) {
             document.getElementById('login-section').style.display = 'none';
             document.getElementById('admin-content').style.display = 'block';
             document.getElementById('logout-wrap').style.display = 'flex';
+            
+            // Saludo personalizado
+            document.getElementById('admin-greeting').innerHTML = `Hola, <em>${user.name}</em>!`;
+            document.getElementById('admin-role-display').textContent = `Rol actual: ${user.role.toUpperCase()}`;
+
+            // Control de acceso por roles (Lineamiento 3A.1)
+            const role = user.role;
+            
+            const btnStats = document.getElementById('btn-nav-stats');
+            const btnPlatos = document.getElementById('btn-nav-platos');
+            const btnReservas = document.getElementById('btn-nav-reservas');
+            const btnContactos = document.getElementById('btn-nav-contactos');
+            const btnUsuarios = document.getElementById('btn-nav-usuarios');
+
+            // Resetear visibilidad por defecto
+            btnPlatos.style.display = 'none';
+            btnReservas.style.display = 'none';
+            btnContactos.style.display = 'none';
+            btnUsuarios.style.display = 'none';
+
+            if (role === 'superadmin') {
+                btnPlatos.style.display = 'block';
+                btnReservas.style.display = 'block';
+                btnContactos.style.display = 'block';
+                btnUsuarios.style.display = 'block';
+            } else if (role === 'admin') {
+                btnPlatos.style.display = 'block';
+                btnReservas.style.display = 'block';
+                btnContactos.style.display = 'block';
+            } else if (role === 'operador') {
+                // Operador solo ve estadísticas (por defecto siempre visible)
+            }
+
+            // FORZAR RESETEO VISUAL AL INICIAR SESIÓN
+            // Nos aseguramos que siempre inicie en "Estadísticas" para evitar que 
+            // se quede "pegada" una sección de un usuario anterior
+            document.querySelectorAll('.admin-nav__btn').forEach(b => b.classList.remove('admin-nav__btn--active'));
+            btnStats.classList.add('admin-nav__btn--active');
+            
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('admin-section--active'));
+            document.getElementById('stats').classList.add('admin-section--active');
+
+            // Cargar datos permitidos
             loadStats();
-            loadReservations();
-            loadContacts();
-            loadProducts();
+            if (role === 'superadmin' || role === 'admin') {
+                loadReservations();
+                loadContacts();
+                loadProducts();
+            }
+            if (role === 'superadmin') {
+                loadUsers();
+            }
         }
 
         function initLogin() {
@@ -283,7 +404,7 @@
                     if (response.ok) {
                         const user = await response.json();
                         localStorage.setItem('admin_user', JSON.stringify(user));
-                        showAdmin();
+                        showAdmin(user);
                     } else { errorDiv.textContent = 'Usuario o contraseña incorrectos'; }
                 } catch (error) { errorDiv.textContent = 'Error de conexión'; }
             });
@@ -312,6 +433,37 @@
             });
         }
 
+        let allProducts = [];
+
+        async function loadProducts() {
+            const tbody = document.querySelector('#table-platos tbody');
+            try {
+                const response = await fetch(`${API_URL}/products`);
+                allProducts = await response.json();
+                tbody.innerHTML = allProducts.map(p => `
+                    <tr>
+                        <td><img src="${p.image_path.startsWith('/') ? 'http://localhost:8000' + p.image_path : p.image_path}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;"></td>
+                        <td><strong>${p.name}</strong></td>
+                        <td><span class="badge badge--categoria">${p.category}</span></td>
+                        <td>Gs. ${p.price.toLocaleString()}</td>
+                        <td>
+                            <button class="btn--primary btn-edit-product" data-id="${p.id}" style="padding: 5px 10px; font-size: 0.8rem; margin-right: 5px;">Editar</button>
+                            <button class="btn--delete btn-delete-product" data-id="${p.id}">Eliminar</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('¿Seguro que deseas eliminar este plato?')) return;
+            try {
+                await fetch(`${API_URL}/products/${id}`, { method: 'DELETE' });
+                loadProducts();
+                loadStats();
+            } catch (e) { console.error(e); }
+        }
+
         // CRUD PLATOS LOGIC
         function initPlatosCRUD() {
             const modal = document.getElementById('modal-plato');
@@ -322,19 +474,40 @@
             const formPlato = document.getElementById('form-plato');
             const tablePlatos = document.getElementById('table-platos');
 
-            // Delegación de eventos para eliminar
+            // Delegación de eventos para eliminar y editar
             tablePlatos.addEventListener('click', (e) => {
                 if (e.target.classList.contains('btn-delete-product')) {
                     const id = e.target.dataset.id;
                     deleteProduct(id);
+                } else if (e.target.classList.contains('btn-edit-product')) {
+                    const id = parseInt(e.target.dataset.id);
+                    const product = allProducts.find(p => p.id === id);
+                    if (product) {
+                        document.getElementById('modal-plato-title').textContent = 'Editar Plato';
+                        document.getElementById('plato-id').value = product.id;
+                        document.getElementById('plato-name').value = product.name;
+                        document.getElementById('plato-desc').value = product.description;
+                        document.getElementById('plato-price').value = product.price;
+                        document.getElementById('plato-category').value = product.category;
+                        document.getElementById('image-path-input').value = product.image_path;
+                        
+                        const preview = document.getElementById('preview-img');
+                        preview.src = product.image_path.startsWith('/') ? 'http://localhost:8000' + product.image_path : product.image_path;
+                        preview.style.display = 'block';
+                        document.getElementById('upload-text').style.display = 'none';
+
+                        modal.classList.add('modal--active');
+                    }
                 }
             });
 
             btnNuevo.addEventListener('click', () => { 
-                modal.classList.add('modal--active'); 
+                document.getElementById('modal-plato-title').textContent = 'Agregar Nuevo Plato';
                 formPlato.reset(); 
+                document.getElementById('plato-id').value = '';
                 document.getElementById('preview-img').style.display='none'; 
                 document.getElementById('upload-text').style.display='block'; 
+                modal.classList.add('modal--active'); 
             });
             
             btnClose.addEventListener('click', () => modal.classList.remove('modal--active'));
@@ -366,10 +539,14 @@
                 const data = Object.fromEntries(formData.entries());
                 data.price = parseFloat(data.price);
                 const status = document.getElementById('plato-status');
+                const id = document.getElementById('plato-id').value;
                 
                 try {
-                    const response = await fetch(`${API_URL}/products`, {
-                        method: 'POST',
+                    const method = id ? 'PUT' : 'POST';
+                    const url = id ? `${API_URL}/products/${id}` : `${API_URL}/products`;
+                    
+                    const response = await fetch(url, {
+                        method: method,
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
                     });
@@ -380,58 +557,6 @@
                     } else { status.textContent = 'Error al guardar el plato'; }
                 } catch (e) { status.textContent = 'Error de conexión'; }
             });
-        }
-
-        async function handleFiles(files) {
-            if (files.length === 0) return;
-            const file = files[0];
-            if (!file.type.startsWith('image/')) return;
-
-            const status = document.getElementById('plato-status');
-            status.textContent = 'Subiendo imagen...';
-            status.className = 'form__status form__status--loading';
-
-            const formData = new FormData();
-            formData.append('file', file);
-
-            try {
-                const response = await fetch(`${API_URL}/upload-image`, { method: 'POST', body: formData });
-                const data = await response.json();
-                
-                document.getElementById('image-path-input').value = data.image_path;
-                const preview = document.getElementById('preview-img');
-                preview.src = data.image_path;
-                preview.style.display = 'block';
-                document.getElementById('upload-text').style.display = 'none';
-                status.textContent = 'Imagen lista';
-                status.className = 'form__status form__status--success';
-            } catch (e) { status.textContent = 'Error al subir imagen'; status.className = 'form__status form__error'; }
-        }
-
-        async function loadProducts() {
-            const tbody = document.querySelector('#table-platos tbody');
-            try {
-                const response = await fetch(`${API_URL}/products`);
-                const data = await response.json();
-                tbody.innerHTML = data.map(p => `
-                    <tr>
-                        <td><img src="${p.image_path}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;"></td>
-                        <td><strong>${p.name}</strong></td>
-                        <td><span class="badge badge--categoria">${p.category}</span></td>
-                        <td>Gs. ${p.price.toLocaleString()}</td>
-                        <td><button class="btn--delete btn-delete-product" data-id="${p.id}">Eliminar</button></td>
-                    </tr>
-                `).join('');
-            } catch (e) { console.error(e); }
-        }
-
-        async function deleteProduct(id) {
-            if (!confirm('¿Seguro que deseas eliminar este plato?')) return;
-            try {
-                await fetch(`${API_URL}/products/${id}`, { method: 'DELETE' });
-                loadProducts();
-                loadStats();
-            } catch (e) { console.error(e); }
         }
 
         // LOADERS FOR OTHER SECTIONS
@@ -487,6 +612,123 @@
                     </tr>
                 `).join('');
             } catch (error) { console.error(error); }
+        }
+
+        // CRUD USUARIOS LOGIC
+        let allUsers = [];
+
+        function initUsuariosCRUD() {
+            const modal = document.getElementById('modal-usuario');
+            const btnNuevo = document.getElementById('btn-nuevo-usuario');
+            const btnClose = document.getElementById('close-modal-usuario');
+            const formUsuario = document.getElementById('form-usuario');
+            const tableUsuarios = document.getElementById('table-usuarios');
+
+            if (!tableUsuarios) return;
+
+            tableUsuarios.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-delete-usuario')) {
+                    const id = e.target.dataset.id;
+                    deleteUser(id);
+                } else if (e.target.classList.contains('btn-edit-usuario')) {
+                    const id = parseInt(e.target.dataset.id);
+                    const user = allUsers.find(u => u.id === id);
+                    if (user) {
+                        document.getElementById('modal-usuario-title').textContent = 'Editar Usuario';
+                        document.getElementById('usuario-id').value = user.id;
+                        document.getElementById('usuario-name').value = user.name;
+                        document.getElementById('usuario-username').value = user.username;
+                        document.getElementById('usuario-email').value = user.email;
+                        document.getElementById('usuario-role').value = user.role;
+                        document.getElementById('usuario-password').value = ''; // Se deja vacío a menos que quiera cambiarla
+                        
+                        modal.classList.add('modal--active');
+                    }
+                }
+            });
+
+            btnNuevo.addEventListener('click', () => { 
+                document.getElementById('modal-usuario-title').textContent = 'Agregar Nuevo Usuario';
+                formUsuario.reset(); 
+                document.getElementById('usuario-id').value = '';
+                modal.classList.add('modal--active'); 
+            });
+            
+            btnClose.addEventListener('click', () => modal.classList.remove('modal--active'));
+            
+            window.addEventListener('click', (e) => { 
+                if (e.target == modal) modal.classList.remove('modal--active'); 
+            });
+
+            formUsuario.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(formUsuario);
+                const data = Object.fromEntries(formData.entries());
+                const status = document.getElementById('usuario-status');
+                const id = document.getElementById('usuario-id').value;
+                
+                // Remove password if it's empty during edit
+                if (id && !data.password_hash) {
+                    delete data.password_hash;
+                }
+                
+                try {
+                    const method = id ? 'PUT' : 'POST';
+                    const url = id ? `${API_URL}/users/${id}` : `${API_URL}/users`;
+                    
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    if (response.ok) {
+                        modal.classList.remove('modal--active');
+                        loadUsers();
+                    } else { 
+                        const err = await response.json();
+                        status.textContent = err.detail || 'Error al guardar usuario'; 
+                        status.className = 'form__status form__error';
+                    }
+                } catch (e) { 
+                    status.textContent = 'Error de conexión'; 
+                    status.className = 'form__status form__error';
+                }
+            });
+        }
+
+        async function loadUsers() {
+            const tbody = document.querySelector('#table-usuarios tbody');
+            if(!tbody) return;
+            try {
+                const response = await fetch(`${API_URL}/users`);
+                allUsers = await response.json();
+                if (allUsers.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">No hay usuarios</td></tr>'; return; }
+                tbody.innerHTML = allUsers.map(u => `
+                    <tr>
+                        <td><strong>${u.name}</strong></td>
+                        <td>${u.username}</td>
+                        <td>${u.email}</td>
+                        <td><span class="badge badge--categoria">${u.role}</span></td>
+                        <td>
+                            <button class="btn--primary btn-edit-usuario" data-id="${u.id}" style="padding: 5px 10px; font-size: 0.8rem; margin-right: 5px;">Editar</button>
+                            ${u.role !== 'superadmin' ? `<button class="btn--delete btn-delete-usuario" data-id="${u.id}">Eliminar</button>` : '-'}
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) { console.error(error); }
+        }
+
+        async function deleteUser(id) {
+            if (!confirm('¿Seguro que deseas eliminar este usuario?')) return;
+            try {
+                const response = await fetch(`${API_URL}/users/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    loadUsers();
+                } else {
+                    const err = await response.json();
+                    alert(err.detail || 'No se pudo eliminar');
+                }
+            } catch (e) { console.error(e); }
         }
     </script>
 </body>

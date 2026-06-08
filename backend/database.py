@@ -19,6 +19,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password_hash = Column(String)
     role = Column(String)
+    name = Column(String, default="Usuario")
 
 # 2. TABLA DE CONTACTO / LEADS
 class Contact(Base):

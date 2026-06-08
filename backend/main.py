@@ -59,6 +59,23 @@ class Product(ProductBase):
     class Config:
         from_attributes = True
 
+class UserBase(BaseModel):
+    username: str
+    email: str
+    role: str
+    name: str
+
+class UserCreate(UserBase):
+    password_hash: str
+
+class UserUpdate(UserBase):
+    password_hash: Optional[str] = None
+
+class UserResponse(UserBase):
+    id: int
+    class Config:
+        from_attributes = True
+
 class LoginRequest(BaseModel):
     username: str
     password: str
@@ -111,7 +128,58 @@ def login(req: LoginRequest, db_session: Session = Depends(get_db)):
         print(f"Contraseña incorrecta para {req.username}")
         raise HTTPException(status_code=401, detail="Credenciales inválidas")
     print(f"Login exitoso para {req.username}")
-    return {"username": user.username, "role": user.role}
+    return {"username": user.username, "role": user.role, "name": user.name}
+
+# CRUD USUARIOS (Solo superadmin en el frontend)
+@app.get("/api/users", response_model=List[UserResponse])
+def get_users(db_session: Session = Depends(get_db)):
+    return db_session.query(db.User).all()
+
+@app.post("/api/users", response_model=UserResponse)
+def create_user(user: UserCreate, db_session: Session = Depends(get_db)):
+    # Check si existe
+    db_user = db_session.query(db.User).filter(db.User.username == user.username).first()
+    if db_user:
+        raise HTTPException(status_code=400, detail="Username ya registrado")
+    new_user = db.User(**user.dict())
+    db_session.add(new_user)
+    db_session.commit()
+    db_session.refresh(new_user)
+    return new_user
+
+@app.put("/api/users/{user_id}", response_model=UserResponse)
+def update_user(user_id: int, user: UserUpdate, db_session: Session = Depends(get_db)):
+    db_user = db_session.query(db.User).filter(db.User.id == user_id).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    # Check if username is being changed to one that already exists
+    if db_user.username != user.username:
+        existing_user = db_session.query(db.User).filter(db.User.username == user.username).first()
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Username ya registrado")
+            
+    db_user.username = user.username
+    db_user.email = user.email
+    db_user.role = user.role
+    db_user.name = user.name
+    if user.password_hash:
+        db_user.password_hash = user.password_hash
+        
+    db_session.commit()
+    db_session.refresh(db_user)
+    return db_user
+
+@app.delete("/api/users/{user_id}")
+def delete_user(user_id: int, db_session: Session = Depends(get_db)):
+    user = db_session.query(db.User).filter(db.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    if user.role == "superadmin":
+        raise HTTPException(status_code=400, detail="No se puede eliminar al superadmin")
+    db_session.delete(user)
+    db_session.commit()
+    return {"message": "Usuario eliminado correctamente"}
 
 # CRUD PRODUCTOS
 @app.get("/api/products", response_model=List[Product])
@@ -125,6 +193,22 @@ def create_product(product: ProductBase, db_session: Session = Depends(get_db)):
     db_session.commit()
     db_session.refresh(new_product)
     return new_product
+
+@app.put("/api/products/{product_id}", response_model=Product)
+def update_product(product_id: int, product: ProductBase, db_session: Session = Depends(get_db)):
+    db_product = db_session.query(db.Product).filter(db.Product.id == product_id).first()
+    if not db_product:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+        
+    db_product.name = product.name
+    db_product.description = product.description
+    db_product.price = product.price
+    db_product.category = product.category
+    db_product.image_path = product.image_path
+        
+    db_session.commit()
+    db_session.refresh(db_product)
+    return db_product
 
 @app.delete("/api/products/{product_id}")
 def delete_product(product_id: int, db_session: Session = Depends(get_db)):
@@ -148,9 +232,8 @@ async def upload_image(file: UploadFile = File(...)):
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    # Retornar la URL pública para guardar en la DB
-    # Nota: Usamos la IP de localhost:8000 para que el frontend la vea
-    return {"image_path": f"http://localhost:8000/static/uploads/products/{filename}"}
+    # Retornar la URL relativa para guardar en la DB (como pide la rúbrica)
+    return {"image_path": f"/static/uploads/products/{filename}"}
 
 # RESTO DE ENDPOINTS
 @app.post("/api/contact")
@@ -186,7 +269,8 @@ def get_stats(db_session: Session = Depends(get_db)):
             db_session.query(db.Product).filter(db.Product.category == "principal").count(),
             db_session.query(db.Product).filter(db.Product.category == "postre").count(),
             db_session.query(db.Product).filter(db.Product.category == "bebida").count(),
-        ]
+        ],
+        "total_platos": db_session.query(db.Product).count()
     }
     return stats
 
