@@ -117,7 +117,7 @@ def get_db():
 
 # ENDPOINTS
 
-@app.post("/api/login")
+@app.post("/api/login", tags=["Autenticación"])
 def login(req: LoginRequest, db_session: Session = Depends(get_db)):
     print(f"Intento de login para usuario: {req.username}")
     user = db_session.query(db.User).filter(db.User.username == req.username.strip()).first()
@@ -131,11 +131,11 @@ def login(req: LoginRequest, db_session: Session = Depends(get_db)):
     return {"username": user.username, "role": user.role, "name": user.name}
 
 # CRUD USUARIOS (Solo superadmin en el frontend)
-@app.get("/api/users", response_model=List[UserResponse])
+@app.get("/api/users", response_model=List[UserResponse], tags=["Usuarios"])
 def get_users(db_session: Session = Depends(get_db)):
     return db_session.query(db.User).all()
 
-@app.post("/api/users", response_model=UserResponse)
+@app.post("/api/users", response_model=UserResponse, tags=["Usuarios"])
 def create_user(user: UserCreate, db_session: Session = Depends(get_db)):
     # Check si existe
     db_user = db_session.query(db.User).filter(db.User.username == user.username).first()
@@ -147,7 +147,7 @@ def create_user(user: UserCreate, db_session: Session = Depends(get_db)):
     db_session.refresh(new_user)
     return new_user
 
-@app.put("/api/users/{user_id}", response_model=UserResponse)
+@app.put("/api/users/{user_id}", response_model=UserResponse, tags=["Usuarios"])
 def update_user(user_id: int, user: UserUpdate, db_session: Session = Depends(get_db)):
     db_user = db_session.query(db.User).filter(db.User.id == user_id).first()
     if not db_user:
@@ -170,7 +170,7 @@ def update_user(user_id: int, user: UserUpdate, db_session: Session = Depends(ge
     db_session.refresh(db_user)
     return db_user
 
-@app.delete("/api/users/{user_id}")
+@app.delete("/api/users/{user_id}", tags=["Usuarios"])
 def delete_user(user_id: int, db_session: Session = Depends(get_db)):
     user = db_session.query(db.User).filter(db.User.id == user_id).first()
     if not user:
@@ -182,11 +182,11 @@ def delete_user(user_id: int, db_session: Session = Depends(get_db)):
     return {"message": "Usuario eliminado correctamente"}
 
 # CRUD PRODUCTOS
-@app.get("/api/products", response_model=List[Product])
+@app.get("/api/products", response_model=List[Product], tags=["Productos"])
 def get_products(db_session: Session = Depends(get_db)):
     return db_session.query(db.Product).all()
 
-@app.post("/api/products", response_model=Product)
+@app.post("/api/products", response_model=Product, tags=["Productos"])
 def create_product(product: ProductBase, db_session: Session = Depends(get_db)):
     new_product = db.Product(**product.dict())
     db_session.add(new_product)
@@ -194,7 +194,7 @@ def create_product(product: ProductBase, db_session: Session = Depends(get_db)):
     db_session.refresh(new_product)
     return new_product
 
-@app.put("/api/products/{product_id}", response_model=Product)
+@app.put("/api/products/{product_id}", response_model=Product, tags=["Productos"])
 def update_product(product_id: int, product: ProductBase, db_session: Session = Depends(get_db)):
     db_product = db_session.query(db.Product).filter(db.Product.id == product_id).first()
     if not db_product:
@@ -210,7 +210,7 @@ def update_product(product_id: int, product: ProductBase, db_session: Session = 
     db_session.refresh(db_product)
     return db_product
 
-@app.delete("/api/products/{product_id}")
+@app.delete("/api/products/{product_id}", tags=["Productos"])
 def delete_product(product_id: int, db_session: Session = Depends(get_db)):
     product = db_session.query(db.Product).filter(db.Product.id == product_id).first()
     if not product:
@@ -220,7 +220,7 @@ def delete_product(product_id: int, db_session: Session = Depends(get_db)):
     return {"message": "Producto eliminado correctamente"}
 
 # CARGA DE IMÁGENES
-@app.post("/api/upload-image")
+@app.post("/api/upload-image", tags=["Productos"])
 async def upload_image(file: UploadFile = File(...)):
     # Generar nombre único
     extension = os.path.splitext(file.filename)[1]
@@ -236,7 +236,7 @@ async def upload_image(file: UploadFile = File(...)):
     return {"image_path": f"/static/uploads/products/{filename}"}
 
 # RESTO DE ENDPOINTS
-@app.post("/api/contact")
+@app.post("/api/contact", tags=["Contacto"])
 def create_contact(contact: ContactCreate, db_session: Session = Depends(get_db)):
     new_contact = db.Contact(**contact.dict())
     db_session.add(new_contact)
@@ -244,11 +244,11 @@ def create_contact(contact: ContactCreate, db_session: Session = Depends(get_db)
     db_session.refresh(new_contact)
     return {"message": "Mensaje enviado", "id": new_contact.id}
 
-@app.get("/api/contacts", response_model=List[Contact])
+@app.get("/api/contacts", response_model=List[Contact], tags=["Contacto"])
 def get_contacts(db_session: Session = Depends(get_db)):
     return db_session.query(db.Contact).all()
 
-@app.post("/api/reservations")
+@app.post("/api/reservations", tags=["Reservas"])
 def create_reservation(res: ReservationCreate, db_session: Session = Depends(get_db)):
     new_res = db.Reservation(**res.dict())
     db_session.add(new_res)
@@ -256,11 +256,11 @@ def create_reservation(res: ReservationCreate, db_session: Session = Depends(get
     db_session.refresh(new_res)
     return {"message": "Reserva confirmada", "id": new_res.id}
 
-@app.get("/api/reservations", response_model=List[Reservation])
+@app.get("/api/reservations", response_model=List[Reservation], tags=["Reservas"])
 def get_reservations(db_session: Session = Depends(get_db)):
     return db_session.query(db.Reservation).all()
 
-@app.get("/api/stats")
+@app.get("/api/stats", tags=["Estadísticas"])
 def get_stats(db_session: Session = Depends(get_db)):
     stats = {
         "categorias": ["Entradas", "Principales", "Postres", "Bebidas"],
@@ -274,13 +274,10 @@ def get_stats(db_session: Session = Depends(get_db)):
     }
     return stats
 
-@app.post("/api/track")
+@app.post("/api/track", tags=["Estadísticas"])
 def track_visit(db_session: Session = Depends(get_db)):
     new_visit = db.Visit(timestamp=datetime.now().isoformat())
     db_session.add(new_visit)
     db_session.commit()
     return {"status": "success"}
 
-@app.get("/")
-def read_root():
-    return {"message": "Ratatouille API 1.1.0"}
